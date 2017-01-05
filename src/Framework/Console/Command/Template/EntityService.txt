@@ -1,0 +1,17 @@
+<?php
+
+namespace TastPHP\Service\Entity;
+
+interface EntityService
+{
+    public function getEntity($id, $fields);
+
+    public function getAllEntity();
+
+    public function addEntity($entity);
+
+    public function removeEntity($id);
+
+    public function updateEntity($id, $entity);
+
+}

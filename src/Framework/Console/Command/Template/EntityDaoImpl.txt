@@ -1,0 +1,37 @@
+<?php
+
+namespace TastPHP\Service\Entity\Dao\Impl;
+
+use TastPHP\Service\Common\BaseDao;
+use TastPHP\Service\Entity\Dao\EntityDao;
+
+class EntityDaoImpl extends BaseDao implements EntityDao
+{
+    private static $table = '{{tableName}}';
+
+    public function getEntity($id, $fields = '*')
+    {
+        return $this->get($id, $fields, self::$table);
+    }
+
+    public function getAllEntity()
+    {
+        return $this->getAll(self::$table);
+    }
+
+    public function createEntity($entity)
+    {
+        return $this->create(self::$table, $entity);
+    }
+
+    public function updateEntity($id, $entity)
+    {
+        return $this->update(self::$table, $entity, $id);
+    }
+
+    public function deleteEntity($id)
+    {
+        return $this->delete(self::$table, $id);
+    }
+
+}

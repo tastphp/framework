@@ -1,0 +1,10 @@
+<?php
+namespace TastPHP\Framework\{{Demoservice}};
+
+class {{Demoservice}} extends \TastPHP\Framework\Service\ServiceMap
+{
+    public static function getMap()
+    {
+        return '{{demoservice}}';
+    }
+}

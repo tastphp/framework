@@ -1,0 +1,15 @@
+<?php
+
+namespace TastPHP\Framework\{{Demoservice}};
+
+use TastPHP\Framework\Service\ServiceProvider;
+
+class {{Demoservice}}ServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        $this->app->singleton('{{demoservice}}', function () {
+            return new {{Demoservice}}Service();
+        });
+    }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "tastphp/framework",
+  "description": "The Tastphp framework.",
+  "keywords": [
+    "tastphp",
+    "framework"
+  ],
+  "homepage": "https://github.com/tastphp/framework",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "xujiajun",
+      "email": "me@xujiajun.cn",
+      "homepage": "http://tastphp.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "TastPHP\\" : ["src/"] }
+  },
+  "require": {
+    "doctrine/dbal": "2.5.4",
+    "pimple/pimple": "~3.0",
+    "twig/twig": "~1.24.0",
+    "monolog/monolog": "^1.19",
+    "symfony/finder": "^3.0",
+    "symfony/var-dumper": "^3.0",
+    "schnittstabil/csrf-tokenservice": "^2.0",
+    "doctrine/migrations": "^1.4",
+    "symfony/console": "^3.0",
+    "symfony/event-dispatcher": "^3.0",
+    "symfony/http-foundation": "^3.0",
+    "lcobucci/jwt": "^3.1",
+    "jeremykendall/php-domain-parser": "~2.0",
+    "symfony/validator": "^3.1",
+    "symfony/filesystem": "^3.1",
+    "swiftmailer/swiftmailer": "~5.4",
+    "maximebf/debugbar": ">=1.0.0",
+    "mtdowling/cron-expression":"~1.0",
+    "pda/pheanstalk": "^3.1",
+    "symfony/polyfill-iconv": "^1.2"
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}

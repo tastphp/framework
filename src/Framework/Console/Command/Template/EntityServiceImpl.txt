@@ -1,0 +1,39 @@
+<?php
+
+namespace TastPHP\Service\Entity\Impl;
+
+use TastPHP\Service\Common\BaseService;
+use TastPHP\Service\Entity\EntityService;
+
+class EntityServiceImpl extends BaseService implements EntityService
+{
+    public function getEntity($id, $fields = "*")
+    {
+        return $this->getEntityDao()->getEntity($id, $fields);
+    }
+
+    public function addEntity($entity)
+    {
+        return $this->getEntityDao()->createEntity($entity);
+    }
+
+    public function removeEntity($id)
+    {
+        return $this->getEntityDao()->deleteEntity($id);
+    }
+
+    public function updateEntity($id, $entity)
+    {
+        return $this->getEntityDao()->updateEntity($id, $entity);
+    }
+
+    public function getAllEntity()
+    {
+        return $this->getEntityDao()->getAllEntity();
+    }
+
+    private function getEntityDao()
+    {
+        return $this->registerDao('Entity.EntityDao');
+    }
+}

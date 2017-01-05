@@ -1,0 +1,17 @@
+<?php
+
+namespace TastPHP\Service\Entity\Dao;
+
+interface EntityDao
+{
+    public function getEntity($id, $fields);
+
+    public function getAllEntity();
+
+    public function createEntity($entity);
+
+    public function updateEntity($id, $entity);
+
+    public function deleteEntity($id);
+
+}

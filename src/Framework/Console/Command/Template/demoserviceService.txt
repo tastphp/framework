@@ -1,0 +1,10 @@
+<?php
+
+namespace TastPHP\Framework\{{Demoservice}};
+
+// TODO use true Demoservice
+
+class {{Demoservice}}Service extends {{Demoservice}}
+{
+
+}

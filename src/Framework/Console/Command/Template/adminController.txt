@@ -1,0 +1,63 @@
+<?php
+
+namespace TastPHP\BackBundle\Controller;
+
+use Symfony\Component\HttpFoundation\Request;
+
+class EntityController extends BaseController
+{
+    public function indexAction()
+    {
+        $entity = $this->getEntityService()->getAllEntity();
+        return $this->render('entity/index.html.twig', [
+            'entity' => $entity
+        ]);
+    }
+
+    public function removeAction(Request $request, $id)
+    {
+        $this->getEntityService()->removeEntity($id);
+        return $this->json(['code'=>200,'msg' =>'remove success']);
+    }
+
+    public function editAction(Request $request, $id)
+    {
+        if ($request->getMethod() == 'POST') {
+        //TODO $data
+            $this->getEntityService()->updateEntity($id,$data);
+            return $this->json(['code'=>200,'msg' =>'edit success']);
+        }
+
+        if ($request->getMethod() == "GET") {
+            $entity = $this->getEntityService()->getEntity($id);
+            return $this->render('entity/entity-add-modal.html.twig', [
+                'entity' => $entity,
+                'edit' => true,
+            ]);
+        }
+    }
+
+    public function addAction(Request $request)
+    {
+        if ($request->getMethod() == 'POST') {
+        //TODO checkFileds
+            if ($result = $this->checkFields($request, ['name'], false)) {
+                return $result;
+            }
+        //TODO $data
+            $this->getEntityService()->addEntity($data);
+            return $this->json(['code' => 200, 'msg' => 'success']);
+        }
+
+        if ($request->getMethod() == "GET") {
+            return $this->render('entity/entity-add-modal.html.twig', [
+                'edit' => false,
+            ]);
+        }
+    }
+
+    protected function getEntityService()
+    {
+        return $this->registerService('Entity.EntityService');
+    }
+}
