@@ -17,7 +17,7 @@ class DoctrineServiceProvider extends ServiceProvider
 
         //TODO
         if (class_exists('\\TastPHP\\Service\\ServiceKernel')) {
-            $this->app['service_kernel'] = \TastPHP\Service\ServiceKernel\ServiceKernel::instance();
+            $this->app['service_kernel'] = \TastPHP\Service\ServiceKernel::instance();
             $this->app['service_kernel']->setContainer($this->app);
             $this->app['service_kernel']->setConnection($this->app['dbs']);
             $this->app['service_kernel']->getConnection()['master']->exec("SET names utf8mb4");
