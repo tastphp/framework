@@ -131,6 +131,22 @@ class Kernel extends Container
     }
 
     /**
+     * @param array $aliases
+     */
+    protected function injectAliases(array $aliases)
+    {
+        $this->aliases = array_merge($this->aliases, $aliases);
+    }
+
+    /**
+     * @param array $serviceProviders
+     */
+    protected function injectServiceProviders(array $serviceProviders)
+    {
+        $this->serviceProviders = array_merge($this->serviceProviders, $serviceProviders);
+    }
+
+    /**
      * @return bool
      */
     public function runningInConsole()

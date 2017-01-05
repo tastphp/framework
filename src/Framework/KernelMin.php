@@ -99,6 +99,22 @@ class KernelMin extends Container
         return php_sapi_name() == 'cli';
     }
 
+    /**
+     * @param array $aliases
+     */
+    protected function injectAliases(array $aliases)
+    {
+        $this->aliases = array_merge($this->aliases, $aliases);
+    }
+
+    /**
+     * @param array $serviceProviders
+     */
+    protected function injectServiceProviders(array $serviceProviders)
+    {
+        $this->serviceProviders = array_merge($this->serviceProviders, $serviceProviders);
+    }
+
     public function setTimezone()
     {
         date_default_timezone_set($this['timezone']);
