@@ -1,0 +1,12 @@
+#beanstalkd # change it
+beanstalkd.host: 127.0.0.1
+tube: tastphp
+#csrf change it
+csrf.secret: tastphp.token
+csrf.ttl: 1440
+
+#swift mail change it
+swift.mail.host: hwsmtp.exmail.qq.com
+swift.mail.port: 25
+swift.mail.username: xxx@domain.com
+swift.mail.password: xxx
