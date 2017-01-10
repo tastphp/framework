@@ -1,6 +1,0 @@
-#change it
-debug: true
-secret: tastphp 
-# dev | test | prod
-env: dev 
-timezone: UTC
