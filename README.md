@@ -20,22 +20,10 @@
 
 ## Installation
 
-step1
-
 ```
 composer require tastphp/framework:dev-master
 ```
 
-step2
-
-```
-change config/example.xx.yml => config/xx.yml
-```
-
-step3
-
-```
-> php web/index.php  //run it!
 ```
 ## License
 [MIT Licensed](http://www.opensource.org/licenses/MIT)
