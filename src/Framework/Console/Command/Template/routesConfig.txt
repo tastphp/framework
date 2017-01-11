@@ -1,0 +1,2 @@
+{{demo}}:
+    resource: {{demo}}/Config/routes.yml

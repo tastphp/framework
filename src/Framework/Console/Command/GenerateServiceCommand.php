@@ -14,7 +14,7 @@ class GenerateServiceCommand extends Command
     {
         $this
             ->setName('generate:service')
-            ->setDescription('Generate a service (register into app)')
+            ->setDescription('Generates a service (register into app)')
             ->addArgument(
                 'name',
                 InputArgument::OPTIONAL,
@@ -24,7 +24,7 @@ class GenerateServiceCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        chdir(__DIR__ . '/../Core');
+        chdir(__BASEDIR__ . '/src/');
         $helper = $this->getHelper('question');
         $question = new Question('Please enter the name of service:', 'demoservice');
         $name = $helper->ask($input, $output, $question);

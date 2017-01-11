@@ -1,0 +1,6 @@
+{{demo}}:
+      pattern: /{{demo}}
+      parameters:
+        _controller: Front@{{demo}}::index
+        methods:  [GET]
+        routeName: {{demo}}

@@ -26,7 +26,7 @@ class GenerateEntityServiceCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        chdir(__DIR__ . '/../../../../src/');
+        chdir(__BASEDIR__ . '/src/');
         $name = $input->getArgument('name');
         if ($name) {
             $this->generateEntityService($output, $name);

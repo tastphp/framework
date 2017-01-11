@@ -21,7 +21,7 @@ class GenerateAdminController extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        chdir(__DIR__ . '/../../../../src/');
+        chdir(__BASEDIR__ . '/src/');
 
         $helper = $this->getHelper('question');
 

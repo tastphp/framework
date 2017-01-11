@@ -1,0 +1,2 @@
+  {{demo}}_config:
+      resource: {{Demo}}/Config/config.yml
