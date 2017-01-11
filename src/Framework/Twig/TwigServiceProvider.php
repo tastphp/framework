@@ -2,37 +2,16 @@
 
 namespace TastPHP\Framework\Twig;
 
-use TastPHP\Framework\Container\Container;
+use TastPHP\Framework\Service\ServiceProvider;
 
-class TwigService extends Twig
+class TwigServiceProvider extends ServiceProvider
 {
-    private $loaderBaseDir = [__BASEDIR__ . '/web/views/'];
-
-    public function register(Container $app)
+    public function register()
     {
-        $app->singleton('twig', function () use ($app) {
-
-            $loader = new \Twig_Loader_Filesystem($this->loaderBaseDir);
-
-            $env = array(
-                'charset' => 'utf-8',
-                'debug' => $app['debug'],
-                'cache' => __BASEDIR__ . '/var/cache/twig',
-                'strict_variables' => $app['debug'],
-            );
-
-            $twig = new \Twig_Environment($loader, isset($env) ? $env : array());
-            dump(class_exists('\\TastPHP\\FrontBundle\\Twig\\Extension\\WebExtension'));exit();
-            if(class_exists('\\TastPHP\\FrontBundle\\Twig\\Extension\\WebExtension')) {
-            $twig->addExtension(new \TastPHP\FrontBundle\Twig\Extension\WebExtension($app));
-            }
-            return $twig;
+        $this->app->singleton('twigService', function () {
+            return new TwigService();
         });
 
-    }
-
-    protected function setLoaderBaseDir(array $loaderBaseDir)
-    {
-        $this->loaderBaseDir = $loaderBaseDir;
+        $this->app->singleton('twigService')->register($this->app);
     }
 }
