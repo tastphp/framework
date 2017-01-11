@@ -24,7 +24,7 @@ class GenerateServiceCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        chdir(__BASEDIR__ . '/src/');
+        chdir(__BASEDIR__ . '/src/App/');
         $helper = $this->getHelper('question');
         $question = new Question('Please enter the name of service:', 'demoservice');
         $name = $helper->ask($input, $output, $question);
