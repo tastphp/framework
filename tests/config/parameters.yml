@@ -1,0 +1,12 @@
+#encipher change it
+encipher.secret: xxxxx
+#csrf change it
+csrf.secret: tastphp.token
+csrf.ttl: 1440
+#swift mail
+swift.mail.host: hwsmtp.exmail.qq.com
+swift.mail.port: 25
+# change it
+swift.mail.username: xxx
+swift.mail.password: xxxx
+swift.mail.enabled: on

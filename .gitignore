@@ -1,5 +1,5 @@
 .idea/
 composer.json.bak
 vendor/
-config/
-web/
+config/*
+web/*
