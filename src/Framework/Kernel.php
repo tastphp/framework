@@ -42,20 +42,20 @@ class Kernel extends Container
      * @var array
      */
     protected $serviceProviders = [
-        'TastPHP\Framework\Config\ConfigServiceProvider',
-        'TastPHP\Framework\Cache\RedisServiceProvider',
-        'TastPHP\Framework\Cache\CacheServiceProvider',
-        'TastPHP\Framework\Cache\FileCacheServiceProvider',
-        'TastPHP\Framework\Logger\LoggerServiceProvider',
-        'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
-        'TastPHP\Framework\Twig\TwigServiceProvider',
-        'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
-        'TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider',
-        'TastPHP\Framework\Jwt\JwtServiceProvider',
-        'TastPHP\Framework\ListenerRegister\ListenerRegisterServiceProvider',
-        'TastPHP\Framework\SwiftMailer\SwiftMailerServiceProvider',
-        'TastPHP\Framework\Queue\QueueServiceProvider',
-        'TastPHP\Framework\Router\RouterServiceProvider',
+        'Config' => 'TastPHP\Framework\Config\ConfigServiceProvider',
+        'Redis' => 'TastPHP\Framework\Cache\RedisServiceProvider',
+        'Cache' => 'TastPHP\Framework\Cache\CacheServiceProvider',
+        'FileCache' => 'TastPHP\Framework\Cache\FileCacheServiceProvider',
+        'Logger' => 'TastPHP\Framework\Logger\LoggerServiceProvider',
+        'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
+        'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
+        'Doctrine' => 'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
+        'CsrfToken' => 'TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider',
+        'Jwt' => 'TastPHP\Framework\Jwt\JwtServiceProvider',
+        'ListenerRegister' => 'TastPHP\Framework\ListenerRegister\ListenerRegisterServiceProvider',
+        'SwiftMailer' => 'TastPHP\Framework\SwiftMailer\SwiftMailerServiceProvider',
+        'Queue' => 'TastPHP\Framework\Queue\QueueServiceProvider',
+        'Router' => 'TastPHP\Framework\Router\RouterServiceProvider',
     ];
 
     /**
@@ -153,5 +153,35 @@ class Kernel extends Container
     public function runningInConsole()
     {
         return php_sapi_name() == 'cli';
+    }
+
+    /**
+     * @param $alias string
+     * @param $class string
+     * @throws \Exception
+     */
+    public function replaceAlias($alias, $class)
+    {
+        $key = ucfirst($alias);
+        if (!array_key_exists($key, $this->aliases)) {
+            throw new KernelException("The alias {$key} is not exists");
+        }
+
+        $this->aliases[$key] = $class;
+    }
+
+    /**
+     * @param $key string
+     * @param $serviceProvider string
+     * @throws \Exception
+     */
+    public function replaceServiceProvider($key, $serviceProvider)
+    {
+        $key = ucfirst($key);
+        if (!array_key_exists($key, $this->serviceProviders)) {
+            throw new KernelException("The serviceProvider {$key} is not exists");
+        }
+
+        $this->serviceProviders[$key] = $serviceProvider;
     }
 }

@@ -4,6 +4,7 @@ namespace TastPHP\Framework;
 
 use TastPHP\Framework\Handler\AliasLoaderHandler;
 use TastPHP\Framework\Container\Container;
+use TastPHP\Framework\Event\AppEvent;
 
 /**
  * Class KernelMin
@@ -16,8 +17,6 @@ class KernelMin extends Container
     protected $aliases = [
         'Kernel' => 'TastPHP\Framework\KernelMin',
         'Config' => 'TastPHP\Framework\Config\Config',
-        'Cache' => 'TastPHP\Framework\Cache\Cache',
-        'FileCache' => 'TastPHP\Framework\Cache\FileCache',
         'ServiceProvider' => 'TastPHP\Framework\Service\ServiceProvider',
         'Logger' => 'TastPHP\Framework\Logger\Logger',
         'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcher',
@@ -25,15 +24,14 @@ class KernelMin extends Container
     ];
 
     protected $serviceProviders = [
-        'TastPHP\Framework\Config\ConfigServiceProvider',
-        'TastPHP\Framework\Cache\RedisServiceProvider',
-        'TastPHP\Framework\Cache\CacheServiceProvider',
-        'TastPHP\Framework\Cache\FileCacheServiceProvider',
-        'TastPHP\Framework\Logger\LoggerServiceProvider',
-        'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
-        'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
-        'TastPHP\Framework\DomainParser\DomainParserServiceProvider',
-        'TastPHP\Framework\SwiftMailer\SwiftMailerServiceProvider',
+        'Config' => 'TastPHP\Framework\Config\ConfigServiceProvider',
+        'Logger' => 'TastPHP\Framework\Logger\LoggerServiceProvider',
+        'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
+        'Doctrine' => 'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
+        'ListenerRegister' => 'TastPHP\Framework\ListenerRegister\ListenerRegisterServiceProvider',
+        'Router' => 'TastPHP\Framework\Router\RouterServiceProvider',
+        'CsrfToken' => 'TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider',
+        'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
     ];
 
 
@@ -118,5 +116,43 @@ class KernelMin extends Container
     public function setTimezone()
     {
         date_default_timezone_set($this['timezone']);
+    }
+
+    /**
+     * run app
+     */
+    public function run()
+    {
+        $this['eventDispatcher']->dispatch(AppEvent::RESPONSE, new \TastPHP\Framework\Event\HttpEvent(null, $this['router']->matchCurrentRequest()));
+    }
+
+    /**
+     * @param $alias string
+     * @param $class string
+     * @throws \Exception
+     */
+    public function replaceAlias($alias, $class)
+    {
+        $key = ucfirst($alias);
+        if (!array_key_exists($key, $this->aliases)) {
+            throw new KernelException("The alias {$key} is not exists");
+        }
+
+        $this->aliases[$key] = $class;
+    }
+
+    /**
+     * @param $key string
+     * @param $serviceProvider string
+     * @throws \Exception
+     */
+    public function replaceServiceProvider($key, $serviceProvider)
+    {
+        $key = ucfirst($key);
+        if (!array_key_exists($key, $this->serviceProviders)) {
+            throw new KernelException("The serviceProvider {$key} is not exists");
+        }
+
+        $this->serviceProviders[$key] = $serviceProvider;
     }
 }
