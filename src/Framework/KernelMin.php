@@ -32,7 +32,6 @@ class KernelMin extends Container
         'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
         'Doctrine' => 'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
         'ListenerRegister' => 'TastPHP\Framework\ListenerRegister\ListenerRegisterServiceProvider',
-        'Router' => 'TastPHP\Framework\Router\RouterServiceProvider',
         'CsrfToken' => 'TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider',
         'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
     ];
