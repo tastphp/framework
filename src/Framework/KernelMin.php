@@ -25,6 +25,9 @@ class KernelMin extends Container
 
     protected $serviceProviders = [
         'Config' => 'TastPHP\Framework\Config\ConfigServiceProvider',
+        'Redis' => 'TastPHP\Framework\Cache\RedisServiceProvider',
+        'Cache' => 'TastPHP\Framework\Cache\CacheServiceProvider',
+        'FileCache' => 'TastPHP\Framework\Cache\FileCacheServiceProvider',
         'Logger' => 'TastPHP\Framework\Logger\LoggerServiceProvider',
         'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
         'Doctrine' => 'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
