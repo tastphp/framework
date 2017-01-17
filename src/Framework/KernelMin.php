@@ -17,6 +17,8 @@ class KernelMin extends Container
     protected $aliases = [
         'Kernel' => 'TastPHP\Framework\KernelMin',
         'Config' => 'TastPHP\Framework\Config\Config',
+        'Cache' => 'TastPHP\Framework\Cache\Cache',
+        'FileCache' => 'TastPHP\Framework\Cache\FileCache',
         'ServiceProvider' => 'TastPHP\Framework\Service\ServiceProvider',
         'Logger' => 'TastPHP\Framework\Logger\Logger',
         'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcher',
