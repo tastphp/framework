@@ -148,7 +148,7 @@ class Route
 
         $namespaceDir = 'TastPHP';
         if ('test' === $container['env']) {
-            $namespaceDir = 'TastPHP\\Test';
+            $namespaceDir = 'TastPHP\\Tests';
         }
         $class = "{$namespaceDir}\\{$bundleName}Bundle\\Controller\\{$module}Controller";
 
