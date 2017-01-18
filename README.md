@@ -18,6 +18,12 @@
 * Debug bar
 * DBAL
 
+## Requirements
+
+  * PHP 5.6+ or later
+  * Redis extension
+
+
 ## Installation
 
 ```
