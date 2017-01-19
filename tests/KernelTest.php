@@ -22,25 +22,42 @@ class KernelTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException     Exception
+     * @expectedException InvalidArgumentException
      */
     public function testNotMatchReplaceServiceProvider()
     {
+        $key = 'Configs';
+        $serviceProvider = 'TastPHP\Test\Config\ConfigServiceProvider';
         $kernel = $this->getKernelInstance();
-        $kernel->replaceServiceProvider("Configs", 'TastPHP\Test\Config\ConfigServiceProvider');
+        $kernel->replaceServiceProvider($key, $serviceProvider);
         $kernel = $this->getKernelMinInstance();
-        $kernel->replaceServiceProvider("Configs", 'TastPHP\Test\Config\ConfigServiceProvider');
+        $kernel->replaceServiceProvider($key, $serviceProvider);
     }
 
     /**
-     * @expectedException     Exception
+     * @expectedException InvalidArgumentException
      */
     public function testNotMatchReplaceAlias()
     {
+        $alias = 'Configs';
+        $class = 'TastPHP\Test\Config\ConfigServiceProvider';
         $kernel = $this->getKernelInstance();
-        $kernel->replaceAlias("Configs", 'TastPHP\Test\Config\ConfigServiceProvider');
-        $kernel = $this->getKernelMinInstance();
-        $kernel->replaceAlias("Configs", 'TastPHP\Test\Config\ConfigServiceProvider');
+        $kernel->replaceAlias($alias, $class);
+        $kernelMin = $this->getKernelMinInstance();
+        $kernelMin->replaceAlias($alias, $class);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testNotMatchReplaceListener()
+    {
+        $eventName = 'app.test.request';
+        $lisenter = 'TastPHP\Test\Listener\RequestListener@onTestRequestAction';
+        $kernel = $this->getKernelInstance();
+        $kernel->replaceListener($eventName, $lisenter);
+        $kernelMin = $this->getKernelMinInstance();
+        $kernelMin->replaceListener($eventName, $lisenter);
     }
 
     protected function getKernelInstance()

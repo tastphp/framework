@@ -3,8 +3,11 @@ namespace TastPHP\Framework\Traits;
 
 use TastPHP\Framework\Handler\AliasLoaderHandler;
 use TastPHP\Framework\Event\AppEvent;
-use TastPHP\Framework\KernelException;
 
+/**
+ * Class KernelTrait
+ * @package TastPHP\Framework\Traits
+ */
 trait KernelTrait
 {
     /**
@@ -92,8 +95,8 @@ trait KernelTrait
     public function replaceAlias($alias, $class)
     {
         $key = ucfirst($alias);
-        if (!array_key_exists($key, $this->aliases)) {
-            throw new KernelException("The alias {$key} is not exists");
+        if (!isset($this->aliases[$key])) {
+            throw new \InvalidArgumentException(sprintf('The alias "%s" is not defined.', $key));
         }
 
         $this->aliases[$key] = $class;
@@ -102,27 +105,25 @@ trait KernelTrait
     /**
      * @param $key string
      * @param $serviceProvider string
-     * @throws \Exception
      */
     public function replaceServiceProvider($key, $serviceProvider)
     {
         $key = ucfirst($key);
-        if (!array_key_exists($key, $this->serviceProviders)) {
-            throw new KernelException("The serviceProvider {$key} is not exists");
+        if (!isset($this->serviceProviders[$key])) {
+            throw new \InvalidArgumentException(sprintf('The serviceProvider "%s" is not defined.', $key));
         }
 
         $this->serviceProviders[$key] = $serviceProvider;
     }
 
     /**
-     * @param $key
-     * @param $listener
-     * @throws KernelException
+     * @param $key string
+     * @param $listener string
      */
     public function replaceListener($key, $listener)
     {
-        if (!array_key_exists($key, $this->listeners)) {
-            throw new KernelException("The kernel listener {$key} is not exists");
+        if (!isset($this->listeners[$key])) {
+            throw new \InvalidArgumentException(sprintf('The kernel listener "%s" is not defined.', $key));
         }
 
         $this->listeners[$key] = $listener;
