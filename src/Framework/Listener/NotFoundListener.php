@@ -9,9 +9,9 @@ class NotFoundListener
 {
     public function onNotFoundPageAction(HttpEvent $event)
     {
-        $this->app = \Kernel::getInstance();
-        $this->app['Request'] = $event->getRequest();
-        $response =  $this->app['twig']->render('errors/404.html');
-        $this->app['eventDispatcher']->dispatch(AppEvent::RESPONSE, new HttpEvent(null, $response));
+        $app = \Kernel::getInstance();
+        $app['Request'] = $event->getRequest();
+        $response =  $app['twig']->render('errors/404.html');
+        $app['eventDispatcher']->dispatch(AppEvent::RESPONSE, new HttpEvent(null, $response));
     }
 }

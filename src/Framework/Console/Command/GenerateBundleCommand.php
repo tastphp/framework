@@ -78,7 +78,6 @@ class GenerateBundleCommand extends Command
 
     protected function getQuestionHelper()
     {
-        $helper = $this->getHelper('question');
-        return $helper;
+        return $this->getHelper('question');
     }
 }

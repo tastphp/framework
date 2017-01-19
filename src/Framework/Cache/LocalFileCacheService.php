@@ -4,17 +4,17 @@ namespace TastPHP\Framework\Cache;
 
 class LocalFileCacheService
 {
-    protected static $cache_dir = "var/cache/";
+    protected static $cacheDir = "var/cache/";
 
     /**
      * @param $cacheName
-     * @param bool $cache_dir
+     * @param bool $cacheDir
      * @return mixed
      */
-    public function get($cacheName, $cache_dir = false)
+    public function get($cacheName, $cacheDir = false)
     {
-        $cache_dir = $cache_dir == false ? self::$cache_dir : $cache_dir;
-        $dir = $cache_dir."/".$cacheName;
+        $cacheDir = $cacheDir == false ? self::$cacheDir : $cacheDir;
+        $dir = $cacheDir."/".$cacheName;
 
         return include $dir;
     }
@@ -22,12 +22,12 @@ class LocalFileCacheService
     /**
      * @param $cacheName
      * @param $data
-     * @param bool $cache_dir
+     * @param bool $cacheDir
      */
-    public function set($cacheName, $data, $cache_dir = false)
+    public function set($cacheName, $data, $cacheDir = false)
     {
-        $cache_dir = $cache_dir == false ? self::$cache_dir : $cache_dir;
-        $dir = $cache_dir."/".$cacheName;
+        $cacheDir = $cacheDir == false ? self::$cacheDir : $cacheDir;
+        $dir = $cacheDir."/".$cacheName;
 
         if (is_array($data)) {
             $data = var_export($data, true);
@@ -50,14 +50,14 @@ return ".$data.";";
     /**
      * file isExist
      *
-     * @param  cacheName(string)
-     * @param  cache_dir(string)
+     * @param  $cacheName(string)
+     * @param  $cacheDir(string)
      * @return boolean
      */
-    public function isExist($cacheName, $cache_dir = false)
+    public function isExist($cacheName, $cacheDir = false)
     {
-        $cache_dir = $cache_dir == false ? self::$cache_dir : $cache_dir;
-        $dir = $cache_dir.$cacheName;
+        $cacheDir = $cacheDir == false ? self::$cacheDir : $cacheDir;
+        $dir = $cacheDir.$cacheName;
 
         return file_exists($dir);
     }

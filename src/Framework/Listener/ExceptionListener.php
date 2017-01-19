@@ -17,15 +17,15 @@ class ExceptionListener
 
     public function onExceptionAction(ExceptionEvent $event)
     {
-        $this->app = \Kernel::getInstance();
+        $app = \Kernel::getInstance();
 
-        if ($this->app['env'] == 'prod') {
-            $this->app['Request'] = Request::createFromGlobals();
-            $response = $this->app['twig']->render('errors/500.html');
-            $event->getContainer()->singleton('eventDispatcher')->dispatch(AppEvent::RESPONSE, new HttpEvent(null, $response));
+        if ($app['env'] == 'prod') {
+            $app['Request'] = Request::createFromGlobals();
+            $response = $app['twig']->render('errors/500.html');
         } else {
             $response = new Response($event->getTrace(), 500);
-            $event->getContainer()->singleton('eventDispatcher')->dispatch(AppEvent::RESPONSE, new HttpEvent(null, $response));
         }
+
+        $event->getContainer()->singleton('eventDispatcher')->dispatch(AppEvent::RESPONSE, new HttpEvent(null, $response));
     }
 }
