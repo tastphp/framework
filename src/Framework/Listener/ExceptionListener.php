@@ -22,6 +22,6 @@ class ExceptionListener
             $response = new Response($event->getTrace(), 500);
         }
 
-        $event->getContainer()->singleton('eventDispatcher')->dispatch(AppEvent::RESPONSE, new HttpEvent(null, $response));
+        app('eventDispatcher')->dispatch(AppEvent::RESPONSE, new HttpEvent(null, $response));
     }
 }

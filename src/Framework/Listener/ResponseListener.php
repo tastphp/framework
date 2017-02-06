@@ -6,6 +6,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use TastPHP\Framework\Event\AppEvent;
 
 class ResponseListener
 {
@@ -20,5 +21,8 @@ class ResponseListener
         if (is_string($response)) {
             echo $response;
         }
+
+        app('eventDispatcher')->dispatch(AppEvent::HTTPFINISH, new HttpEvent($event->getRequest(), $response));
+        exit;
     }
 }

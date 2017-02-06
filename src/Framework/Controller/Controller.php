@@ -27,12 +27,6 @@ class Controller
      */
     protected function render($html, $parameters = [])
     {
-        $startTime = $this->get('start_time');
-        //$chromephp = $this->get('chromePhp');
-        $end = microtime(true);
-        $totalTime = "run time: " . ($end - $startTime) . "s";
-        //$chromephp::info($totalTime);
-
         if ($this->container['debug']) {
             if ($this->container->singleton('debugbar')->hasCollector('view')) {
                 $parameters['模板地址'] = $html;
@@ -49,11 +43,6 @@ class Controller
 
     protected function renderView($html, $parameters = [])
     {
-        $startTime = $this->get('start_time');
-        //$chromephp = $this->get('chromePhp');
-        $end = microtime(true);
-        $totalTime = "run time: " . ($end - $startTime) . "s";
-        //$chromephp::info($totalTime);
         $content = $this->container['twig']->render($html, $parameters);
         return $content;
     }
@@ -81,12 +70,12 @@ class Controller
      */
     protected function forward($routeName, array $path = [], array $query = [])
     {
-        $allRoutes = $this->get('allRoutes');
+        $allRoutes = app('allRoutes');
         if (!$allRoutes[$routeName]) {
             throw new \Exception('routeName error.');
         }
         $routeConfig = $allRoutes[$routeName];
-        $blankRoute = $this->get('blankRoute');
+        $blankRoute = app('blankRoute');
         $blankRoute->url = $routeConfig['pattern'];
         $blankRoute->config = $routeConfig['parameters'];
         $blankRoute->parameters = $path;

@@ -4,3 +4,4 @@ composer.lock
 vendor/
 config/*
 web/*
+tests/var/*

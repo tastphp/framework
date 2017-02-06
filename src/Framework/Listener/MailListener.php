@@ -9,6 +9,6 @@ class MailListener
     {
         $data = $event->parameters;
 
-        \Queue::put(\Kernel::getInstance()->singleton('tube'), json_encode($data));
+        \Queue::put(app('tube'), json_encode($data));
     }
 }
