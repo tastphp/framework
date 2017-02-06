@@ -21,15 +21,6 @@ class Controller
     }
 
     /**
-     * @param $name
-     * @return mixed
-     */
-    protected function registerService($name)
-    {
-        return $this->container['service_kernel']->registerService($name);
-    }
-
-    /**
      * @param $html
      * @param array $parameters
      * @return Response
@@ -43,12 +34,12 @@ class Controller
         //$chromephp::info($totalTime);
 
         if ($this->container['debug']) {
-            if ($this->container -> singleton('debugbar') -> hasCollector('view')) {
+            if ($this->container->singleton('debugbar')->hasCollector('view')) {
                 $parameters['模板地址'] = $html;
-                $this->container -> singleton('debugbar') -> getCollector('view') -> setData($parameters);
+                $this->container->singleton('debugbar')->getCollector('view')->setData($parameters);
             } else {
                 $parameters['模板地址'] = $html;
-                $this->container -> singleton('debugbar') -> addCollector(new VarCollector($parameters));
+                $this->container->singleton('debugbar')->addCollector(new VarCollector($parameters));
             }
         }
 
@@ -65,59 +56,6 @@ class Controller
         //$chromephp::info($totalTime);
         $content = $this->container['twig']->render($html, $parameters);
         return $content;
-    }
-
-    /**
-     * @param string $name
-     * @return null|callable
-     */
-    protected function get($name = '')
-    {
-        $name = (string)$name;
-
-        if (empty($this->container[$name])) {
-            return null;
-        }
-
-        return $this->container[$name];
-    }
-
-
-    protected function checkFields(Request $request, array $verifyFields, $isValidate = false)
-    {
-        foreach ($verifyFields as $field) {
-            if ('POST' == $request->getMethod()) {
-                $fieldValue = $request->request->get($field);
-                if (empty($fieldValue)) {
-                    $this->json([
-                        'msg' => "field {$field} doesn't exists!",
-                        'code' => 400
-                    ]);
-                }
-            }
-
-            if ("GET" == $request->getMethod()) {
-                $fieldValue = $request->query->get($field);
-                if (empty($fieldValue)) {
-                    $this->json([
-                        'msg' => "field {$field} doesn't exists!",
-                        'code' => 400
-                    ]);
-                }
-            }
-
-            if ($isValidate) {
-                $result = Validator::$field($fieldValue);
-                if (!$result) {
-                    $this->json([
-                        'msg' => "{$field} format error!",
-                        'code' => 400
-                    ]);
-                }
-            }
-        }
-
-        return false;
     }
 
     /**
