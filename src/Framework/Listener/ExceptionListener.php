@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Response;
 use TastPHP\Framework\Event\AppEvent;
 use TastPHP\Framework\Event\HttpEvent;
 use TastPHP\Framework\Event\ExceptionEvent;
-use Symfony\Component\HttpFoundation\Request;
 
 class ExceptionListener
 {
@@ -17,11 +16,8 @@ class ExceptionListener
 
     public function onExceptionAction(ExceptionEvent $event)
     {
-        $app = \Kernel::getInstance();
-
-        if ($app['env'] == 'prod') {
-            $app['Request'] = Request::createFromGlobals();
-            $response = $app['twig']->render('errors/500.html');
+        if (app('env') == 'prod') {
+            $response = app('twig')->render('errors/500.html');
         } else {
             $response = new Response($event->getTrace(), 500);
         }

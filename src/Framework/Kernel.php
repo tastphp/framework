@@ -25,6 +25,7 @@ class Kernel extends Container
         'Kernel' => 'TastPHP\Framework\Kernel',
         'Config' => 'TastPHP\Framework\Config\Config',
         'Cache' => 'TastPHP\Framework\Cache\Cache',
+        'Controller' => 'TastPHP\Framework\Controller\Controller',
         'FileCache' => 'TastPHP\Framework\Cache\FileCache',
         'ServiceProvider' => 'TastPHP\Framework\Service\ServiceProvider',
         'Logger' => 'TastPHP\Framework\Logger\Logger',
@@ -78,6 +79,8 @@ class Kernel extends Container
 
         $exception = new ExceptionsHandler();
         $exception->bootstrap($this);
+
+        $this['router']->matchCurrentRequest();
     }
 
     use KernelTrait;

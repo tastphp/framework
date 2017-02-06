@@ -4,3 +4,4 @@ secret: tastphp-framework
 # dev | test | prod
 env: dev
 timezone: UTC
+name: tast

@@ -1,0 +1,7 @@
+[2017-02-06 03:00:36] tastphp.logger.WARNING: [Notice] Use of undefined constant asd - assumed 'asd'[/private/var/www/tast/tests/src/FrontBundle/Controller/HomeController.php : 10] [] []
+[2017-02-06 03:00:36] tastphp.logger.WARNING: [Notice] Use of undefined constant asd - assumed 'asd'[/private/var/www/tast/tests/src/FrontBundle/Controller/HomeController.php : 10] [] []
+[2017-02-06 03:00:43] tastphp.logger.WARNING: [Notice] Use of undefined constant asd - assumed 'asd'[/private/var/www/tast/tests/src/FrontBundle/Controller/HomeController.php : 10] [] []
+[2017-02-06 03:00:43] tastphp.logger.WARNING: [Notice] Use of undefined constant asd - assumed 'asd'[/private/var/www/tast/tests/src/FrontBundle/Controller/HomeController.php : 10] [] []
+[2017-02-06 03:01:11] tastphp.logger.WARNING: [Notice] Use of undefined constant asd - assumed 'asd'[/private/var/www/tast/tests/src/FrontBundle/Controller/HomeController.php : 10] [] []
+[2017-02-06 03:01:11] tastphp.logger.WARNING: [Notice] Use of undefined constant asd - assumed 'asd'[/private/var/www/tast/tests/src/FrontBundle/Controller/HomeController.php : 10] [] []
+[2017-02-06 03:01:35] tastphp.logger.WARNING: [Notice] Use of undefined constant asd - assumed 'asd'[/private/var/www/tast/tests/src/FrontBundle/Controller/HomeController.php : 10] [] []

@@ -15,9 +15,13 @@
     }
   ],
   "autoload": {
+    "files": [
+        "src/Framework/helpers.php"
+    ],
     "psr-4": {
       "TastPHP\\": [
-        "src/"
+        "src/",
+        "tests/src"
       ]
     }
   },
