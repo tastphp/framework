@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use TastPHP\Framework\Event\AppEvent;
+use TastPHP\Framework\Event\HttpEvent;
 
 class ResponseListener
 {
