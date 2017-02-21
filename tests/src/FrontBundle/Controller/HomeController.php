@@ -1,6 +1,6 @@
 <?php
 
-namespace TastPHP\FrontBundle\Controller;
+namespace TastPHP\Tests\FrontBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 

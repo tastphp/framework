@@ -20,9 +20,13 @@
     ],
     "psr-4": {
       "TastPHP\\": [
-        "src/",
-        "tests/src"
+        "src/"
       ]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "TastPHP\\Tests\\": "tests/src"
     }
   },
   "require": {
