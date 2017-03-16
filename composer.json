@@ -15,10 +15,18 @@
     }
   ],
   "autoload": {
+    "files": [
+        "src/Framework/helpers.php"
+    ],
     "psr-4": {
       "TastPHP\\": [
         "src/"
       ]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "TastPHP\\Tests\\": "tests/src"
     }
   },
   "require": {

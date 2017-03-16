@@ -3,21 +3,13 @@ namespace TastPHP\Framework\Traits;
 
 use TastPHP\Framework\Handler\AliasLoaderHandler;
 use TastPHP\Framework\Event\AppEvent;
-
+use TastPHP\Framework\Event\HttpEvent;
 /**
  * Class KernelTrait
  * @package TastPHP\Framework\Traits
  */
 trait KernelTrait
 {
-    /**
-     * run app
-     */
-    public function run()
-    {
-        $this['eventDispatcher']->dispatch(AppEvent::RESPONSE, new \TastPHP\Framework\Event\HttpEvent(null, $this['router']->matchCurrentRequest()));
-    }
-
     /**
      * @param $name
      * @param null $callable
@@ -140,5 +132,39 @@ trait KernelTrait
         }
 
         return $this->listeners;
+    }
+
+    /**
+     * 处理一个抽象对象
+     * @param  string  $abstract
+     * @return mixed
+     */
+    public function make($abstract)
+    {
+        //如果是已经注册的单例对象
+        if (isset($this[$abstract])) {
+            return $this[$abstract];
+        }
+
+        $reflector = $this->buildReflector($abstract);
+        //有单例
+        if ($reflector->hasMethod('getInstance')) {
+            $object = $abstract::getInstance();
+            $this[$abstract] = $object;
+            return $object;
+        }
+
+        return new $abstract;
+    }
+
+    /**
+     * 处理响应请求
+     *
+     */
+    public function run()
+    {
+        $response = $this->getResponse();
+        $request = $this->getRequest();
+        \EventDispatcher::dispatch(AppEvent::RESPONSE, new HttpEvent($request, $response));
     }
 }

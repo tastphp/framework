@@ -28,7 +28,7 @@ class ListenerRegisterService
 
     private function registerKernelListeners($app)
     {
-        $listeners = \Kernel::getInstance()->getListeners();
+        $listeners = app()->getListeners();
 
         foreach ($listeners as $eventName => $listener) {
             list($listener, $callback) = explode('@', $listener);
