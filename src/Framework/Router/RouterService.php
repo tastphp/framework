@@ -3,6 +3,7 @@
 namespace TastPHP\Framework\Router;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
+use TastPHP\Framework\Event\AppEvent;
 
 /**
  * Class Route
@@ -120,22 +121,6 @@ class Route
         return $this->parameters[$name];
     }
 
-    /**
-     * @param $class
-     * @return \ReflectionClass
-     * @throws \Exception
-     */
-    private function buildMoudle($class)
-    {
-        if (!class_exists($class)) {
-            throw new \Exception("Class " . $class . " not found !");
-        }
-
-        $reflector = new \ReflectionClass($class);
-
-        return $reflector;
-    }
-
     public function dispatch($container)
     {
         $action = explode('::', $this->config['_controller']);
@@ -152,7 +137,7 @@ class Route
         }
         $class = "{$namespaceDir}\\{$bundleName}Bundle\\Controller\\{$module}Controller";
 
-        $reflector = $this->buildMoudle($class);
+        $reflector = app()->buildReflector($class);
         $action = $action[1] . "Action";
         if (!$reflector->hasMethod($action)) {
             throw new \Exception("Class " . $class . " exist ,But the Action " . $action . " not found");
@@ -264,7 +249,12 @@ class RouterService
             return;
         }
 
-        return $this->match($pathInfo, $requestMethod);
+        $response = $this->match($pathInfo, $requestMethod);
+        if ($response) {
+            app()->setResponse($response);
+        } else {
+            self::$parameters['eventDispatcher']->dispatch(AppEvent::NOTFOUND, new \TastPHP\Framework\Event\HttpEvent());
+        }
     }
 
     /**
@@ -313,9 +303,6 @@ class RouterService
             self::$parameters['CurrentRoute'] = $route;
             return $route->dispatch(self::$parameters);
         }
-        $request = self::$parameters['Request'];
-
-        self::$parameters['eventDispatcher']->dispatch('app.notfound', new \TastPHP\Framework\Event\HttpEvent($request));
     }
 
     /**

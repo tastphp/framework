@@ -7,17 +7,10 @@ use Symfony\Component\EventDispatcher\Event as Symfony_Event;
 class ExceptionEvent extends Symfony_Event
 {
     protected $error;
-    protected $container;
 
-    public function __construct($error, $container)
+    public function __construct($error)
     {
         $this->error = $error;
-        $this->container = $container;
-    }
-
-    public function getContainer()
-    {
-        return $this->container;
     }
 
     public function getError()

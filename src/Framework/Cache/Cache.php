@@ -20,6 +20,6 @@ class Cache extends ServiceMap
      */
     public static function redis()
     {
-        return \Kernel::getInstance()->singleton('redisCache');
+        return app()->singleton('redisCache');
     }
 }

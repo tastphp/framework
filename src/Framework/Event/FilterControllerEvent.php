@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\Event;
 
 class FilterControllerEvent extends Event
 {
-    const NAME = 'filter.controller';
+    const NAME = 'app.middleware';
 
     private static $container = null;
 
