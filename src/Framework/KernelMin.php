@@ -2,9 +2,9 @@
 
 namespace TastPHP\Framework;
 
-use TastPHP\Framework\Handler\AliasLoaderHandler;
 use TastPHP\Framework\Container\Container;
-use TastPHP\Framework\Event\AppEvent;
+use TastPHP\Framework\Traits\KernelListeners;
+use TastPHP\Framework\Traits\KernelTrait;
 
 /**
  * Class KernelMin
@@ -17,8 +17,8 @@ class KernelMin extends Container
     protected $aliases = [
         'Kernel' => 'TastPHP\Framework\KernelMin',
         'Config' => 'TastPHP\Framework\Config\Config',
-        'FileCache' => 'TastPHP\Framework\Cache\FileCache',
         'Cache' => 'TastPHP\Framework\Cache\Cache',
+        'FileCache' => 'TastPHP\Framework\Cache\FileCache',
         'ServiceProvider' => 'TastPHP\Framework\Service\ServiceProvider',
         'Logger' => 'TastPHP\Framework\Logger\Logger',
         'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcher',
@@ -38,6 +38,7 @@ class KernelMin extends Container
         'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
     ];
 
+    use KernelListeners;
 
     public function __construct(array $values = [])
     {
@@ -51,112 +52,10 @@ class KernelMin extends Container
         $this->setTimezone();
     }
 
-    /**
-     * @param $name
-     * @param null $callable
-     * @return mixed
-     */
-    public function singleton($name, $callable = null)
-    {
-        if (!isset($this[$name]) && $callable) {
-            $this[$name] = call_user_func($callable);
-        }
-
-        return $this[$name];
-    }
-
-    /**
-     * @return KernelMin
-     */
-    public static function getInstance()
-    {
-        if (!(self::$instance instanceof self)) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
-    }
-
-    /**
-     * do the class alias
-     */
-    public function aliasLoader()
-    {
-        AliasLoaderHandler::getInstance($this->aliases)->register();
-    }
-
-    /**
-     * register services
-     */
-    public function registerServices()
-    {
-        foreach ($this->serviceProviders as $provider) {
-            $provider = new $provider(self::$instance);
-            $provider->register();
-        }
-    }
-
-    public function runningInConsole()
-    {
-        return php_sapi_name() == 'cli';
-    }
-
-    /**
-     * @param array $aliases
-     */
-    protected function injectAliases(array $aliases)
-    {
-        $this->aliases = array_merge($this->aliases, $aliases);
-    }
-
-    /**
-     * @param array $serviceProviders
-     */
-    protected function injectServiceProviders(array $serviceProviders)
-    {
-        $this->serviceProviders = array_merge($this->serviceProviders, $serviceProviders);
-    }
+    use KernelTrait;
 
     public function setTimezone()
     {
         date_default_timezone_set($this['timezone']);
-    }
-
-    /**
-     * run app
-     */
-    public function run()
-    {
-        $this['eventDispatcher']->dispatch(AppEvent::RESPONSE, new \TastPHP\Framework\Event\HttpEvent(null, $this['router']->matchCurrentRequest()));
-    }
-
-    /**
-     * @param $alias string
-     * @param $class string
-     * @throws \Exception
-     */
-    public function replaceAlias($alias, $class)
-    {
-        $key = ucfirst($alias);
-        if (!array_key_exists($key, $this->aliases)) {
-            throw new KernelException("The alias {$key} is not exists");
-        }
-
-        $this->aliases[$key] = $class;
-    }
-
-    /**
-     * @param $key string
-     * @param $serviceProvider string
-     * @throws \Exception
-     */
-    public function replaceServiceProvider($key, $serviceProvider)
-    {
-        $key = ucfirst($key);
-        if (!array_key_exists($key, $this->serviceProviders)) {
-            throw new KernelException("The serviceProvider {$key} is not exists");
-        }
-
-        $this->serviceProviders[$key] = $serviceProvider;
     }
 }

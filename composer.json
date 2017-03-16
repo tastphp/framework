@@ -15,7 +15,11 @@
     }
   ],
   "autoload": {
-    "psr-4": { "TastPHP\\" : ["src/"] }
+    "psr-4": {
+      "TastPHP\\": [
+        "src/"
+      ]
+    }
   },
   "require": {
     "doctrine/dbal": "2.5.4",
@@ -35,14 +39,11 @@
     "symfony/filesystem": "^3.1",
     "swiftmailer/swiftmailer": "~5.4",
     "maximebf/debugbar": ">=1.0.0",
-    "mtdowling/cron-expression":"~1.0",
+    "mtdowling/cron-expression": "~1.0",
     "pda/pheanstalk": "^3.1",
     "symfony/polyfill-iconv": "^1.2"
   },
-  "repositories": {
-    "packagist": {
-      "type": "composer",
-      "url": "https://packagist.phpcomposer.com"
-    }
+  "require-dev": {
+    "phpunit/phpunit": "5.5.*"
   }
 }

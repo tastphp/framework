@@ -3,16 +3,7 @@
 namespace TastPHP\Framework\ListenerRegister;
 
 use TastPHP\Framework\Container\Container;
-use TastPHP\Framework\Event\HttpEvent;
-use TastPHP\Framework\Event\MailEvent;
-use TastPHP\Framework\Listener\ExceptionListener;
-use TastPHP\Framework\Listener\NotFoundListener;
-use TastPHP\Framework\Listener\ResponseListener;
 use TastPHP\Framework\Event\FilterControllerEvent;
-use TastPHP\Framework\Listener\RequestListener;
-use TastPHP\Framework\Listener\MiddlewareListener;
-use TastPHP\Framework\Event\AppEvent;
-use TastPHP\Framework\Listener\MailListener;
 
 class ListenerRegisterService
 {
@@ -22,12 +13,7 @@ class ListenerRegisterService
             return new FilterControllerEvent($app);
         };
 
-        $app['eventDispatcher']->addListener(AppEvent::REQUEST, [new RequestListener(), 'onRequestAction']);
-        $app['eventDispatcher']->addListener($app['filterControllerEvent']::NAME, [new MiddlewareListener(), 'onMiddlewareAction']);
-        $app['eventDispatcher']->addListener(AppEvent::RESPONSE, [new ResponseListener(), 'onResponseAction']);
-        $app['eventDispatcher']->addListener(AppEvent::EXCEPTION, [new ExceptionListener(), 'onExceptionAction']);
-        $app['eventDispatcher']->addListener(MailEvent::MAIlSEND, [new MailListener(), 'onSendMailAction']);
-        $app['eventDispatcher']->addListener(AppEvent::NOTFOUND, [new NotFoundListener(), 'onNotFoundPageAction']);
+        $this->registerKernelListeners($app);
 
         $listeners = $this->parseListenerConfig();
         foreach ($listeners as $listener) {
@@ -38,6 +24,16 @@ class ListenerRegisterService
             $app['eventDispatcher']->addListener($listener['event'], [new $listener['listener'], $listener['callback']], $listener['priority']);
         }
 
+    }
+
+    private function registerKernelListeners($app)
+    {
+        $listeners = \Kernel::getInstance()->getListeners();
+
+        foreach ($listeners as $eventName => $listener) {
+            list($listener, $callback) = explode('@', $listener);
+            $app['eventDispatcher']->addListener($eventName, [new $listener(), $callback]);
+        }
     }
 
     private function parseListenerConfig($listenerConfigAll = [])

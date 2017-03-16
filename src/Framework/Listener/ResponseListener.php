@@ -20,6 +20,7 @@ class ResponseListener
         if (is_string($response)) {
             echo $response;
         }
+        
         if (function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
         }

@@ -51,11 +51,9 @@ class ExceptionsHandler
      * @param  string $message
      * @param  string $file
      * @param  int $line
-     * @param  array $context
      * @return void
-     *
      */
-    public function handleError($level, $message, $file = '', $line = 0, $context = [])
+    public function handleError($level, $message, $file = '', $line = 0)
     {
         if (error_reporting() & $level) {
             $error = [
@@ -170,7 +168,7 @@ class ExceptionsHandler
     {
         $env = $this->container['env'];
         $node = $this->container['name'];
-        $body = 'app环境: 【' . $env . '】 节点名: 【'.$node.'】 <br> [ Exception ' . $e['message'] . '[' . $e['file'] . ' : ' . $e['line'] . ']';
+        $body = 'App Env: 【' . $env . '】, node: 【'.$node.'】 <br> [ Exception ' . $e['message'] . '[' . $e['file'] . ' : ' . $e['line'] . ']';
 
         if (($this->container['swift.mail.enabled'] == 'on') && (!$this->container['debug'])) {
             $this->container['eventDispatcher']->dispatch(MailEvent::MAIlSEND, new MailEvent($body));

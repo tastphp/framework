@@ -28,11 +28,11 @@ class GenerateAdminController extends Command
         $question = new Question('Please enter the name of entity(default:demo_test)', 'demo_test');
         $entityName = $helper->ask($input, $output, $question);
         $controllerName = $this->getControllerNameByEntityName($entityName);
-        $fs = new Filesystem();
+        $filesystem = new Filesystem();
         $controllerContent = file_get_contents("App/Console/Command/Template/adminController.txt");
         $controllerContent = str_replace("Entity",$controllerName,$controllerContent);
         $controllerContent = str_replace("entity",lcfirst($controllerName),$controllerContent);
-        $fs->dumpFile("BackBundle/Controller/".$controllerName."Controller.php", $controllerContent);
+        $filesystem->dumpFile("BackBundle/Controller/".$controllerName."Controller.php", $controllerContent);
         $output->writeln("<fg=black;bg=green>You have success Generates admin controller,entity: {$entityName}</>");
 
     }
@@ -50,7 +50,6 @@ class GenerateAdminController extends Command
             $newName = $name;
         }
 
-        $name = $newName;
-        return $name;
+        return $newName;
     }
 }

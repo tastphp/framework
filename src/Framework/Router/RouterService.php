@@ -146,7 +146,12 @@ class Route
 
         list($bundleName, $module) = explode('@', $action[0]);
 
-        $class = "TastPHP\\{$bundleName}Bundle\Controller\\{$module}Controller";
+        $namespaceDir = 'TastPHP';
+        if ('test' === $container['env']) {
+            $namespaceDir = 'TastPHP\\Tests';
+        }
+        $class = "{$namespaceDir}\\{$bundleName}Bundle\\Controller\\{$module}Controller";
+
         $reflector = $this->buildMoudle($class);
         $action = $action[1] . "Action";
         if (!$reflector->hasMethod($action)) {

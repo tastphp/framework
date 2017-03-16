@@ -28,26 +28,26 @@ class GenerateServiceCommand extends Command
         $helper = $this->getHelper('question');
         $question = new Question('Please enter the name of service:', 'demoservice');
         $name = $helper->ask($input, $output, $question);
-        $fs = new Filesystem();
+        $filesystem = new Filesystem();
         $ucName = ucfirst($name);
         $lcName = lcfirst($name);
-        $fs->mkdir("$ucName");
+        $filesystem->mkdir("$ucName");
 
         $serviceContent = file_get_contents(__DIR__ . "/Template/demoservice.txt");
         $serviceContent = str_replace('{{demoservice}}', $lcName, $serviceContent);
         $serviceContent = str_replace('{{Demoservice}}', $ucName, $serviceContent);
-        $fs->dumpFile("$ucName/$ucName.php", $serviceContent);
+        $filesystem->dumpFile("$ucName/$ucName.php", $serviceContent);
 
 
         $serviceContent = file_get_contents(__DIR__ . "/Template/demoserviceService.txt");
         $serviceContent = str_replace('{{demoservice}}', $lcName, $serviceContent);
         $serviceContent = str_replace('{{Demoservice}}', $ucName, $serviceContent);
-        $fs->dumpFile("$ucName/{$ucName}Service.php", $serviceContent);
+        $filesystem->dumpFile("$ucName/{$ucName}Service.php", $serviceContent);
 
         $serviceContent = file_get_contents(__DIR__ . "/Template/demoserviceServiceProvider.txt");
         $serviceContent = str_replace('{{demoservice}}', $lcName, $serviceContent);
         $serviceContent = str_replace('{{Demoservice}}', $ucName, $serviceContent);
-        $fs->dumpFile("$ucName/{$ucName}ServiceProvider.php", $serviceContent);
+        $filesystem->dumpFile("$ucName/{$ucName}ServiceProvider.php", $serviceContent);
 
         $output->writeln("<fg=black;bg=green>You have success generate {$ucName}Service</>");
     }

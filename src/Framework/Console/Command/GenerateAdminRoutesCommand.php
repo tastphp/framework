@@ -30,14 +30,14 @@ class GenerateAdminRoutesCommand extends Command
         $routeEntityName = $this->getRouteEntityNameByEntityName($entityName);
         $controllerName = $this->getControllerNameByEntityName($entityName);
 
-        $fs = new Filesystem();
+        $filesystem = new Filesystem();
         $routesContent = file_get_contents("BackBundle/Config/routes.yml");
         $newRouteContent = file_get_contents("App/Console/Command/Template/adminRoutes.txt");
         $newRouteContent = str_replace('{{entityKey}}', $entityName, $newRouteContent);
         $newRouteContent = str_replace('entity', $routeEntityName, $newRouteContent);
         $newRouteContent = str_replace('Entity', $controllerName, $newRouteContent);
         $routesContent = $routesContent . "\r\n" . $newRouteContent;
-        $fs->dumpFile("BackBundle/Config/routes.yml", $routesContent);
+        $filesystem->dumpFile("BackBundle/Config/routes.yml", $routesContent);
         $output->writeln("<fg=black;bg=green>You have success Generates admin routes,entity: {$entityName}</>");
 
     }
@@ -72,14 +72,12 @@ class GenerateAdminRoutesCommand extends Command
             $newName = $name;
         }
 
-        $name = $newName;
-        return $name;
+        return $newName;
     }
 
     protected function getQuestionHelper()
     {
-        $helper = $this->getHelper('question');
-        return $helper;
+        return $this->getHelper('question');
     }
 
 }
