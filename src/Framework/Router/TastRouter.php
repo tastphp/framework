@@ -29,7 +29,7 @@ class TastRouter
         if (file_exists($routeCacheFile) && (!$app['debug'])) {
             $routeConfigAll = require $routeCacheFile;
         } else {
-            $routeConfigAll = $this->parseAllRoutes($app,$routeConfigAll);
+            $routeConfigAll = $this->parseAllRoutes($app, $routeConfigAll);
 
             if (!$app['debug']) {
                 $fs = new Filesystem();
@@ -49,22 +49,22 @@ class TastRouter
         RouterService::setParameters($app);
     }
 
-    private function parseAllRoutes($app,$routeConfigAll = [])
+    private function parseAllRoutes($app, $routeConfigAll = [])
     {
-        $routeConfigAll = $this->parseRoutesConfig(__BASEDIR__ . '/config/routes.yml', $routeConfigAll);
+        $routeConfigAll = $this->parseRoutesConfig(__BASEDIR__ . '/config/routes.yml', $routeConfigAll, $app);
 
         if ($app['debug']) {
-            $routeConfigAll = $this->parseRoutesConfig(__BASEDIR__ . '/config/routes_test.yml', $routeConfigAll);
+            $routeConfigAll = $this->parseRoutesConfig(__BASEDIR__ . '/config/routes_test.yml', $routeConfigAll, $app);
         }
 
         return $routeConfigAll;
     }
 
-    private function parseRoutesConfig($routesFile, $routeConfigAll)
+    private function parseRoutesConfig($routesFile, $routeConfigAll, $app)
     {
         $array = [];
         $routesConfigs = \Yaml::parse(file_get_contents($routesFile));
-        foreach ($routesConfigs as $routeConfig) {
+        foreach ($routesConfigs as $key => $routeConfig) {
             //手机版只加载手机的route
             if (($app['isMobile'] && $key != 'mobile') || (!$app['isMobile'] && $key == 'mobile')) {
                 continue;
