@@ -49,7 +49,6 @@ class Kernel extends Container
         'FileCache' => 'TastPHP\Framework\Cache\FileCacheServiceProvider',
         'Logger' => 'TastPHP\Framework\Logger\LoggerServiceProvider',
         'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
-        'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
         'Doctrine' => 'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
         'CsrfToken' => 'TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider',
         'Jwt' => 'TastPHP\Framework\Jwt\JwtServiceProvider',
@@ -57,6 +56,7 @@ class Kernel extends Container
         'SwiftMailer' => 'TastPHP\Framework\SwiftMailer\SwiftMailerServiceProvider',
         'Queue' => 'TastPHP\Framework\Queue\QueueServiceProvider',
         'Router' => 'TastPHP\Framework\Router\RouterServiceProvider',
+        'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
     ];
 
     use KernelListeners;
