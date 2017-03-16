@@ -14,11 +14,17 @@ use Symfony\Component\Filesystem\Filesystem;
 class TastRouter
 {
     public function register(Container $app)
-    {
+    {   
+        $isMobile = $app['isMobile'];
+
         $routeConfigAll = [];
 
         $routeCacheDir = __BASEDIR__ . "/var/cache/config/routes";
-        $routeCacheFile = $routeCacheDir . "/routeConfigAll.php";
+        if ($isMobile) {
+            $routeCacheFile = $routeCacheDir . "/routeConfigMobile.php";
+        } else {
+            $routeCacheFile = $routeCacheDir . "/routeConfigAll.php"; 
+        }
 
         if (file_exists($routeCacheFile) && (!$app['debug'])) {
             $routeConfigAll = require $routeCacheFile;
@@ -59,6 +65,10 @@ class TastRouter
         $array = [];
         $routesConfigs = \Yaml::parse(file_get_contents($routesFile));
         foreach ($routesConfigs as $routeConfig) {
+            //手机版只加载手机的route
+            if (($app['isMobile'] && $key != 'mobile') || (!$app['isMobile'] && $key == 'mobile')) {
+                continue;
+            }
             $resource = ($routeConfig['resource']);
             if (is_file(__BASEDIR__ . "/src/" . $resource) && file_exists(__BASEDIR__ . "/src/" . $resource)) {
                 $array = \Yaml::parse(file_get_contents(__BASEDIR__ . "/src/" . $resource));

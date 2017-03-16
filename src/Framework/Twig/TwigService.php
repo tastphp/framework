@@ -10,9 +10,11 @@ class TwigService extends Twig
     {
         $app->singleton('twig', function () use ($app) {
 
+            $defaultBundle = $app['isMobile'] ? __BASEDIR__ . '/web/views/mobileBundle' : __BASEDIR__ . '/web/views/frontBundle';
+
             $loader = new \Twig_Loader_Filesystem([
                 __BASEDIR__ . '/web/views/',
-                __BASEDIR__ . '/web/views/frontBundle',
+                $defaultBundle,
             ]);
 
             $env = array(
@@ -28,6 +30,5 @@ class TwigService extends Twig
             }
             return $twig;
         });
-
     }
 }
