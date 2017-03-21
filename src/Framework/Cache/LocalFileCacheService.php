@@ -16,7 +16,8 @@ class LocalFileCacheService
         $cacheDir = $cacheDir == false ? self::$cacheDir : $cacheDir;
         $dir = $cacheDir."/".$cacheName;
 
-        return include $dir;
+        if ($this->isExist($cacheName, $cacheDir)) return include $dir;
+        return null;
     }
 
     /**
@@ -57,7 +58,7 @@ return ".$data.";";
     public function isExist($cacheName, $cacheDir = false)
     {
         $cacheDir = $cacheDir == false ? self::$cacheDir : $cacheDir;
-        $dir = $cacheDir.$cacheName;
+        $dir = $cacheDir."/".$cacheName;
 
         return file_exists($dir);
     }
