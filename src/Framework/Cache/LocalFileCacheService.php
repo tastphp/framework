@@ -57,7 +57,7 @@ return ".$data.";";
     public function isExist($cacheName, $cacheDir = false)
     {
         $cacheDir = $cacheDir == false ? self::$cacheDir : $cacheDir;
-        $dir = $cacheDir.$cacheName;
+        $dir = $cacheDir."/".$cacheName;
 
         return file_exists($dir);
     }
