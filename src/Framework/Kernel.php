@@ -25,6 +25,7 @@ class Kernel extends Container
         'Kernel' => 'TastPHP\Framework\Kernel',
         'Config' => 'TastPHP\Framework\Config\Config',
         'Cache' => 'TastPHP\Framework\Cache\Cache',
+        'Controller' => 'TastPHP\Framework\Controller\Controller',
         'FileCache' => 'TastPHP\Framework\Cache\FileCache',
         'ServiceProvider' => 'TastPHP\Framework\Service\ServiceProvider',
         'Logger' => 'TastPHP\Framework\Logger\Logger',
@@ -48,7 +49,6 @@ class Kernel extends Container
         'FileCache' => 'TastPHP\Framework\Cache\FileCacheServiceProvider',
         'Logger' => 'TastPHP\Framework\Logger\LoggerServiceProvider',
         'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
-        'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
         'Doctrine' => 'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
         'CsrfToken' => 'TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider',
         'Jwt' => 'TastPHP\Framework\Jwt\JwtServiceProvider',
@@ -56,6 +56,7 @@ class Kernel extends Container
         'SwiftMailer' => 'TastPHP\Framework\SwiftMailer\SwiftMailerServiceProvider',
         'Queue' => 'TastPHP\Framework\Queue\QueueServiceProvider',
         'Router' => 'TastPHP\Framework\Router\RouterServiceProvider',
+        'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
     ];
 
     use KernelListeners;
@@ -78,6 +79,8 @@ class Kernel extends Container
 
         $exception = new ExceptionsHandler();
         $exception->bootstrap($this);
+
+        $this['router']->matchCurrentRequest();
     }
 
     use KernelTrait;

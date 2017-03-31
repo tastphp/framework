@@ -17,4 +17,6 @@ final class AppEvent extends Event
     const NOTFOUND = "app.notfound";
 
     const HTTPFINISH = "app.httpfinish";
+
+    const MIDDLEWARE = "app.middleware";
 }

@@ -13,7 +13,7 @@ class RouterServiceProvider extends ServiceProvider
     public function register()
     {   
         $request = Request::createFromGlobals();
-        $this->app['Request'] = $request;
+        $this->app->setRequest($request);
         $this->app->singleton('eventDispatcher')->dispatch(AppEvent::REQUEST, new \TastPHP\Framework\Event\HttpEvent($request));
 
         $router = new TastRouter();
