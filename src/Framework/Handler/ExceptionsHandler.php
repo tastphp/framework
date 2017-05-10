@@ -137,6 +137,7 @@ class ExceptionsHandler
         }
 
         if ($this->container['env'] == 'prod') {
+            $this->record($e);
             $this->container['eventDispatcher']->dispatch(AppEvent::EXCEPTION, new ExceptionEvent($e, $this->container));
         }
 
