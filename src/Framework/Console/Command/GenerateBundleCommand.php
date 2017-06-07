@@ -24,12 +24,12 @@ class GenerateBundleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        chdir(__BASEDIR__ . '/src/');
+        $this->changeDir('src/');
         $name = $input->getArgument('name');
 
         if ($name) {
             $this->generateBundleService($output, $name);
-            exit();
+            return;
         }
 
         $helper = $this->getHelper('question');

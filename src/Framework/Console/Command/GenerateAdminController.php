@@ -18,7 +18,7 @@ class GenerateAdminController extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        chdir(__BASEDIR__ . '/src/');
+        $this->changeDir('src/');
 
         $helper = $this->getHelper('question');
         $question = new Question('Please enter the name of entity(default:demo_test)', 'demo_test');
@@ -26,9 +26,9 @@ class GenerateAdminController extends BaseCommand
         $controllerName = $this->getControllerNameByEntityName($entityName);
         $filesystem = new Filesystem();
         $controllerContent = file_get_contents("App/Console/Command/Template/adminController.txt");
-        $controllerContent = str_replace("Entity",$controllerName,$controllerContent);
-        $controllerContent = str_replace("entity",lcfirst($controllerName),$controllerContent);
-        $filesystem->dumpFile("BackBundle/Controller/".$controllerName."Controller.php", $controllerContent);
+        $controllerContent = str_replace("Entity", $controllerName, $controllerContent);
+        $controllerContent = str_replace("entity", lcfirst($controllerName), $controllerContent);
+        $filesystem->dumpFile("BackBundle/Controller/" . $controllerName . "Controller.php", $controllerContent);
         $output->writeln("<fg=black;bg=green>You have success Generates admin controller,entity: {$entityName}</>");
     }
 }
