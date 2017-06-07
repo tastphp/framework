@@ -11,4 +11,4 @@
 * Fixed codeclimate issues ([#8](https://github.com/tastphp/framework/pull/8))([#9](https://github.com/tastphp/framework/pull/9))
 
 ### Removed
-* ExceptionHandler ([#9](https://github.com/tastphp/framework/pull/9))
+* ExceptionHandler ([#10](https://github.com/tastphp/framework/pull/10))
