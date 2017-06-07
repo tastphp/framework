@@ -68,9 +68,8 @@ class ExceptionsHandler
                     $this->record($error);
                     if ($this->container->runningInConsole()) {
                         $this->renderForConsole($error);
-                    } else {
-                        $this->renderHttpResponse($error);
                     }
+                    $this->renderHttpResponse($error);
                     break;
                 default:
                     $this->record($error, 'warning');
@@ -98,14 +97,13 @@ class ExceptionsHandler
 
         if ($this->container->runningInConsole()) {
             $this->renderForConsole($error);
-        } else {
-            $this->renderHttpResponse($error);
         }
+        $this->renderHttpResponse($error);
     }
 
     protected function renderForConsole($e)
     {
-
+        dump($e);
     }
 
     /**
@@ -140,8 +138,6 @@ class ExceptionsHandler
             $this->record($e);
             $this->container['eventDispatcher']->dispatch(AppEvent::EXCEPTION, new ExceptionEvent($e, $this->container));
         }
-
-
     }
 
     /**

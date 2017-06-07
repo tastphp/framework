@@ -8,56 +8,60 @@ class BaseCommand extends Command
 {
     protected function getControllerNameByEntityName($name)
     {
-        $name = ucfirst($name);
-        $names = explode('_', $name);
+        list($name, $names) = $this->handleName($name);
         $newName = '';
         if (count($names) > 1) {
             foreach ($names as $name) {
                 $newName .= ucfirst($name);
             }
-        } else {
-            $newName = $name;
+            return $newName;
         }
-
-        return $newName;
+        return $name;
     }
 
     protected function getRouteEntityNameByEntityName($entityName)
     {
         $names = explode('_', $entityName);
-
         $newName = '';
         if (count($names) > 1) {
             foreach ($names as $name) {
                 $newName .= '/' . $name;
             }
             $newName = substr($newName, 1, strlen($newName));
-        } else {
-            $newName = $entityName;
+            return $newName;
         }
 
-        return $newName;
+        return $entityName;
     }
 
     protected function getGenerateEntityServiceNameByTableName($tableName)
     {
-        $entityServiceName = ucfirst($tableName);
-        $names = explode('_',$tableName);
-        $entityServiceNameTemp = '';
+        list($serviceName, $names) = $this->handleName($tableName);
+        $nameTemp = '';
         if (count($names) > 1) {
-            foreach($names as $tableName)
-            {
-                $entityServiceNameTemp .= ucfirst($tableName);
+            foreach ($names as $tableName) {
+                $nameTemp .= ucfirst($tableName);
             }
-        } else {
-            $entityServiceNameTemp = $entityServiceName;
+            return $nameTemp;
         }
-
-        return $entityServiceNameTemp;
+        return $serviceName;
     }
 
     protected function getQuestionHelper()
     {
         return $this->getHelper('question');
+    }
+
+    protected function changeDir($dir)
+    {
+        chdir(__BASEDIR__ . "/{$dir}");
+    }
+
+    private function handleName($name)
+    {
+        $name = ucfirst($name);
+        $names = explode('_', $name);
+
+        return [$name, $names];
     }
 }

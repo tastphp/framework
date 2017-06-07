@@ -17,8 +17,7 @@ class GenerateAdminRoutesCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        chdir(__BASEDIR__ . '/src/');
-
+        $this->changeDir('src/');
         $helper = $this->getHelper('question');
 
         $question = new Question('Please enter the name of entity(default:demo_test)', 'demo_test');
