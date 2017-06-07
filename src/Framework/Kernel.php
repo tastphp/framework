@@ -2,10 +2,37 @@
 
 namespace TastPHP\Framework;
 
-use TastPHP\Framework\Handler\ExceptionsHandler;
+use Symfony\Component\Yaml\Yaml;
+use TastPHP\Framework\Cache\Cache;
+use TastPHP\Framework\Cache\CacheServiceProvider;
+use TastPHP\Framework\Cache\FileCache;
+use TastPHP\Framework\Cache\FileCacheServiceProvider;
+use TastPHP\Framework\Cache\RedisServiceProvider;
+use TastPHP\Framework\Config\Config;
+use TastPHP\Framework\Config\ConfigServiceProvider;
+use TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider;
+use TastPHP\Framework\Doctrine\DoctrineServiceProvider;
+use TastPHP\Framework\EventDispatcher\EventDispatcher;
+use TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider;
+use TastPHP\Framework\ExceptionHandler\ExceptionHandlerServiceProvider;
 use TastPHP\Framework\Container\Container;
+use TastPHP\Framework\Jwt\JwtBuilder;
+use TastPHP\Framework\Jwt\JwtParser;
+use TastPHP\Framework\Jwt\JwtServiceProvider;
+use TastPHP\Framework\Jwt\JwtSigner;
+use TastPHP\Framework\ListenerRegister\ListenerRegisterServiceProvider;
+use TastPHP\Framework\Logger\Logger;
+use TastPHP\Framework\Logger\LoggerServiceProvider;
+use TastPHP\Framework\Queue\Queue;
+use TastPHP\Framework\Queue\QueueServiceProvider;
+use TastPHP\Framework\Router\Router;
+use TastPHP\Framework\Router\RouterServiceProvider;
+use TastPHP\Framework\Service\ServiceProvider;
+use TastPHP\Framework\SwiftMailer\SwiftMailerServiceProvider;
 use TastPHP\Framework\Traits\KernelListeners;
 use TastPHP\Framework\Traits\KernelTrait;
+use TastPHP\Framework\Twig\Twig;
+use TastPHP\Framework\Twig\TwigServiceProvider;
 
 /**
  * Class Kernel
@@ -22,40 +49,41 @@ class Kernel extends Container
      * @var array
      */
     protected $aliases = [
-        'Kernel' => 'TastPHP\Framework\Kernel',
-        'Config' => 'TastPHP\Framework\Config\Config',
-        'Cache' => 'TastPHP\Framework\Cache\Cache',
-        'FileCache' => 'TastPHP\Framework\Cache\FileCache',
-        'ServiceProvider' => 'TastPHP\Framework\Service\ServiceProvider',
-        'Logger' => 'TastPHP\Framework\Logger\Logger',
-        'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcher',
-        'Router' => 'TastPHP\Framework\Router\Router',
-        'Yaml' => 'Symfony\Component\Yaml\Yaml',
-        'Twig' => 'TastPHP\Framework\Twig\Twig',
-        'JwtBuilder' => 'TastPHP\Framework\Jwt\JwtBuilder',
-        'JwtParser' => 'TastPHP\Framework\Jwt\JwtParser',
-        'JwtSigner' => 'TastPHP\Framework\Jwt\JwtSigner',
-        'Queue' => 'TastPHP\Framework\Queue\Queue',
+        'Kernel' => Kernel::class,
+        'Config' => Config::class,
+        'Cache' => Cache::class,
+        'FileCache' => FileCache::class,
+        'ServiceProvider' => ServiceProvider::class,
+        'Logger' => Logger::class,
+        'EventDispatcher' => EventDispatcher::class,
+        'Router' => Router::class,
+        'Yaml' => Yaml::class,
+        'Twig' => Twig::class,
+        'JwtBuilder' => JwtBuilder::class,
+        'JwtParser' => JwtParser::class,
+        'JwtSigner' => JwtSigner::class,
+        'Queue' => Queue::class,
     ];
 
     /**
      * @var array
      */
     protected $serviceProviders = [
-        'Config' => 'TastPHP\Framework\Config\ConfigServiceProvider',
-        'Redis' => 'TastPHP\Framework\Cache\RedisServiceProvider',
-        'Cache' => 'TastPHP\Framework\Cache\CacheServiceProvider',
-        'FileCache' => 'TastPHP\Framework\Cache\FileCacheServiceProvider',
-        'Logger' => 'TastPHP\Framework\Logger\LoggerServiceProvider',
-        'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
-        'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
-        'Doctrine' => 'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
-        'CsrfToken' => 'TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider',
-        'Jwt' => 'TastPHP\Framework\Jwt\JwtServiceProvider',
-        'ListenerRegister' => 'TastPHP\Framework\ListenerRegister\ListenerRegisterServiceProvider',
-        'SwiftMailer' => 'TastPHP\Framework\SwiftMailer\SwiftMailerServiceProvider',
-        'Queue' => 'TastPHP\Framework\Queue\QueueServiceProvider',
-        'Router' => 'TastPHP\Framework\Router\RouterServiceProvider',
+        'Config' => ConfigServiceProvider::class,
+        'Redis' => RedisServiceProvider::class,
+        'Cache' => CacheServiceProvider::class,
+        'FileCache' => FileCacheServiceProvider::class,
+        'Logger' => LoggerServiceProvider::class,
+        'EventDispatcher' => EventDispatcherServiceProvider::class,
+        'Twig' => TwigServiceProvider::class,
+        'Doctrine' => DoctrineServiceProvider::class,
+        'CsrfToken' => CsrfTokenServiceProvider::class,
+        'Jwt' => JwtServiceProvider::class,
+        'ListenerRegister' => ListenerRegisterServiceProvider::class,
+        'SwiftMailer' => SwiftMailerServiceProvider::class,
+        'Queue' => QueueServiceProvider::class,
+        'Router' => RouterServiceProvider::class,
+        'ExceptionHandler' => ExceptionHandlerServiceProvider::class
     ];
 
     use KernelListeners;
@@ -71,13 +99,8 @@ class Kernel extends Container
         $this['start_time'] = $start;
         self::$instance = $this;
         parent::__construct($values);
-
         $this->aliasLoader();
-
         $this->registerServices();
-
-        $exception = new ExceptionsHandler();
-        $exception->bootstrap($this);
     }
 
     use KernelTrait;
