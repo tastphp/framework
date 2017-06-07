@@ -8,15 +8,7 @@ class BaseCommand extends Command
 {
     protected function getControllerNameByEntityName($name)
     {
-        list($name, $names) = $this->handleName($name);
-        $newName = '';
-        if (count($names) > 1) {
-            foreach ($names as $name) {
-                $newName .= ucfirst($name);
-            }
-            return $newName;
-        }
-        return $name;
+        return $this->processName($name);
     }
 
     protected function getRouteEntityNameByEntityName($entityName)
@@ -36,15 +28,7 @@ class BaseCommand extends Command
 
     protected function getGenerateEntityServiceNameByTableName($tableName)
     {
-        list($serviceName, $names) = $this->handleName($tableName);
-        $nameTemp = '';
-        if (count($names) > 1) {
-            foreach ($names as $tableName) {
-                $nameTemp .= ucfirst($tableName);
-            }
-            return $nameTemp;
-        }
-        return $serviceName;
+        return $this->processName($tableName);
     }
 
     protected function getQuestionHelper()
@@ -55,6 +39,19 @@ class BaseCommand extends Command
     protected function changeDir($dir)
     {
         chdir(__BASEDIR__ . "/{$dir}");
+    }
+
+    private function processName($name)
+    {
+        list($name, $names) = $this->handleName($name);
+        $newName = '';
+        if (count($names) > 1) {
+            foreach ($names as $name) {
+                $newName .= ucfirst($name);
+            }
+            return $newName;
+        }
+        return $name;
     }
 
     private function handleName($name)
