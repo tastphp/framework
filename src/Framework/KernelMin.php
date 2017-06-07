@@ -2,9 +2,26 @@
 
 namespace TastPHP\Framework;
 
+use Symfony\Component\Yaml\Yaml;
+use TastPHP\Framework\Cache\Cache;
+use TastPHP\Framework\Cache\CacheServiceProvider;
+use TastPHP\Framework\Cache\FileCache;
+use TastPHP\Framework\Cache\FileCacheServiceProvider;
+use TastPHP\Framework\Cache\RedisServiceProvider;
+use TastPHP\Framework\Config\Config;
+use TastPHP\Framework\Config\ConfigServiceProvider;
 use TastPHP\Framework\Container\Container;
+use TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider;
+use TastPHP\Framework\Doctrine\DoctrineServiceProvider;
+use TastPHP\Framework\EventDispatcher\EventDispatcher;
+use TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider;
+use TastPHP\Framework\ListenerRegister\ListenerRegisterServiceProvider;
+use TastPHP\Framework\Logger\Logger;
+use TastPHP\Framework\Logger\LoggerServiceProvider;
+use TastPHP\Framework\Service\ServiceProvider;
 use TastPHP\Framework\Traits\KernelListeners;
 use TastPHP\Framework\Traits\KernelTrait;
+use TastPHP\Framework\Twig\TwigServiceProvider;
 
 /**
  * Class KernelMin
@@ -15,27 +32,27 @@ class KernelMin extends Container
     private static $instance;
 
     protected $aliases = [
-        'Kernel' => 'TastPHP\Framework\KernelMin',
-        'Config' => 'TastPHP\Framework\Config\Config',
-        'Cache' => 'TastPHP\Framework\Cache\Cache',
-        'FileCache' => 'TastPHP\Framework\Cache\FileCache',
-        'ServiceProvider' => 'TastPHP\Framework\Service\ServiceProvider',
-        'Logger' => 'TastPHP\Framework\Logger\Logger',
-        'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcher',
-        'Yaml' => 'Symfony\Component\Yaml\Yaml',
+        'Kernel' => KernelMin::class,
+        'Config' => Config::class,
+        'Cache' => Cache::class,
+        'FileCache' => FileCache::class,
+        'ServiceProvider' => ServiceProvider::class,
+        'Logger' => Logger::class,
+        'EventDispatcher' => EventDispatcher::class,
+        'Yaml' => Yaml::class,
     ];
 
     protected $serviceProviders = [
-        'Config' => 'TastPHP\Framework\Config\ConfigServiceProvider',
-        'Redis' => 'TastPHP\Framework\Cache\RedisServiceProvider',
-        'Cache' => 'TastPHP\Framework\Cache\CacheServiceProvider',
-        'FileCache' => 'TastPHP\Framework\Cache\FileCacheServiceProvider',
-        'Logger' => 'TastPHP\Framework\Logger\LoggerServiceProvider',
-        'EventDispatcher' => 'TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider',
-        'Doctrine' => 'TastPHP\Framework\Doctrine\DoctrineServiceProvider',
-        'ListenerRegister' => 'TastPHP\Framework\ListenerRegister\ListenerRegisterServiceProvider',
-        'CsrfToken' => 'TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider',
-        'Twig' => 'TastPHP\Framework\Twig\TwigServiceProvider',
+        'Config' => ConfigServiceProvider::class,
+        'Redis' => RedisServiceProvider::class,
+        'Cache' => CacheServiceProvider::class,
+        'FileCache' => FileCacheServiceProvider::class,
+        'Logger' => LoggerServiceProvider::class,
+        'EventDispatcher' => EventDispatcherServiceProvider::class,
+        'Doctrine' => DoctrineServiceProvider::class,
+        'ListenerRegister' => ListenerRegisterServiceProvider::class,
+        'CsrfToken' => CsrfTokenServiceProvider::class,
+        'Twig' => TwigServiceProvider::class
     ];
 
     use KernelListeners;
