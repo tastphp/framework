@@ -26,10 +26,12 @@ class GenerateBundleCommand extends Command
     {
         chdir(__BASEDIR__ . '/src/');
         $name = $input->getArgument('name');
+
         if ($name) {
             $this->generateBundleService($output, $name);
             exit();
         }
+
         $helper = $this->getHelper('question');
         $question = new Question('Please enter the name of the bundle:', 'DemoBundle');
         $name = $helper->ask($input, $output, $question);
@@ -52,13 +54,13 @@ class GenerateBundleCommand extends Command
 
     private function generateBundleDir($name)
     {
-        $fs = new Filesystem();
-        $fs->mkdir("{$name}/Config");
-        $fs->dumpFile("{$name}/Config/routes.yml", '');
-        $fs->mkdir("{$name}/Controller");
-        $fs->dumpFile("{$name}/Controller/.gitkeep", '');
-        $fs->mkdir("{$name}/Listener");
-        $fs->dumpFile("{$name}/Listener/.gitkeep", '');
+        $filesystem = new Filesystem();
+        $filesystem->mkdir("{$name}/Config");
+        $filesystem->dumpFile("{$name}/Config/routes.yml", '');
+        $filesystem->mkdir("{$name}/Controller");
+        $filesystem->dumpFile("{$name}/Controller/.gitkeep", '');
+        $filesystem->mkdir("{$name}/Listener");
+        $filesystem->dumpFile("{$name}/Listener/.gitkeep", '');
     }
 
     private function updateRoutesConfig($name)
@@ -74,10 +76,5 @@ class GenerateBundleCommand extends Command
         $configContent = str_replace('{{Demo}}', $name, $configContent);
         $configContent = str_replace('{{demo}}', lcfirst($name), $configContent);
         file_put_contents(__BASEDIR__ . "/config/config.yml", PHP_EOL . $configContent, FILE_APPEND);
-    }
-
-    protected function getQuestionHelper()
-    {
-        return $this->getHelper('question');
     }
 }
