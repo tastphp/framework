@@ -5,12 +5,10 @@ namespace TastPHP\Framework\Console\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
 
-class GenerateEntityServiceCommand extends Command
+class GenerateEntityServiceCommand extends BaseCommand
 {
     protected function configure()
     {
@@ -39,23 +37,10 @@ class GenerateEntityServiceCommand extends Command
 
     }
 
-
     private function generateEntityService($output, $name)
     {
         $tableName = $name;
-        $name = ucfirst($name);
-        $names = explode('_',$name);
-        $newName = '';
-        if (count($names) > 1) {
-            foreach($names as $name)
-            {
-                $newName .= ucfirst($name);
-            }
-        } else {
-            $newName = $name;
-        }
-
-        $name = $newName;
+        $name = $this->getGenerateEntityServiceNameByTableName($tableName);
         $filesystem = new Filesystem();
         //service file
         $filesystem->mkdir("Service/$name");
@@ -83,10 +68,5 @@ class GenerateEntityServiceCommand extends Command
         $entityDaoImplContent = str_replace('{{tableName}}', $tableName, $entityDaoImplContent);
         $filesystem->dumpFile("Service/$name/Dao/Impl/{$name}DaoImpl.php", $entityDaoImplContent);
         $output->writeln("<fg=black;bg=green>You have success generate {$name}Service(Dao)</>");
-    }
-
-    protected function getQuestionHelper()
-    {
-        return $this->getHelper('question');
     }
 }

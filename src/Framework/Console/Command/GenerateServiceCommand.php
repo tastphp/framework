@@ -38,7 +38,6 @@ class GenerateServiceCommand extends Command
         $serviceContent = str_replace('{{Demoservice}}', $ucName, $serviceContent);
         $filesystem->dumpFile("$ucName/$ucName.php", $serviceContent);
 
-
         $serviceContent = file_get_contents(__DIR__ . "/Template/demoserviceService.txt");
         $serviceContent = str_replace('{{demoservice}}', $lcName, $serviceContent);
         $serviceContent = str_replace('{{Demoservice}}', $ucName, $serviceContent);
@@ -51,6 +50,4 @@ class GenerateServiceCommand extends Command
 
         $output->writeln("<fg=black;bg=green>You have success generate {$ucName}Service</>");
     }
-
-
 }
