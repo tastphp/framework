@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-<a href="https://api.travis-ci.org/tastphp/framework.svg?branch=master"><img src="https://api.travis-ci.org/tastphp/framework.svg?branch=master" alt="Build Status"></a>
-<a href="https://codeclimate.com/github/tastphp/framework/badges/gpa.svg"><img src="https://codeclimate.com/github/tastphp/framework/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://travis-ci.org/tastphp/framework"><img src="https://api.travis-ci.org/tastphp/framework.svg?branch=master" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/tastphp/framework"><img src="https://codeclimate.com/github/tastphp/framework/badges/gpa.svg" alt="Code Climate"></a>
 <a href="https://packagist.org/packages/tastphp/framework"><img src="https://poser.pugx.org/tastphp/framework/v/stable" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/tastphp/framework"><img src="https://poser.pugx.org/tastphp/framework/license" alt="License"></a>
 </p>
