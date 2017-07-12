@@ -10,6 +10,7 @@ use TastPHP\Framework\Cache\FileCacheServiceProvider;
 use TastPHP\Framework\Cache\RedisServiceProvider;
 use TastPHP\Framework\Config\Config;
 use TastPHP\Framework\Config\ConfigServiceProvider;
+use TastPHP\Framework\Container\PimpleContainerProvider;
 use TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider;
 use TastPHP\Framework\Doctrine\DoctrineServiceProvider;
 use TastPHP\Framework\EventDispatcher\EventDispatcher;
@@ -83,7 +84,8 @@ class Kernel extends Container
         'SwiftMailer' => SwiftMailerServiceProvider::class,
         'Queue' => QueueServiceProvider::class,
         'Router' => RouterServiceProvider::class,
-        'ExceptionHandler' => ExceptionHandlerServiceProvider::class
+        'ExceptionHandler' => ExceptionHandlerServiceProvider::class,
+        'Container' => PimpleContainerProvider::class
     ];
 
     use KernelListeners;
