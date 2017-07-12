@@ -2,8 +2,6 @@
 
 namespace TastPHP\Framework\Container;
 
-use Pimple\Container;
-
 /**
  * Class PimpleContainer
  * @package TastPHP\Framework\Container
