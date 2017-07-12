@@ -12,3 +12,7 @@
 
 ### Removed
 * ExceptionHandler ([#10](https://github.com/tastphp/framework/pull/10))
+
+## v1.2.0 (2017-07-12)
+* Added implement PSR-11: Container Interface.
+* Fixed phpunit config
