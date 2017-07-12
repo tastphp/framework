@@ -16,3 +16,6 @@
 ## v1.2.0 (2017-07-12)
 * Added implement PSR-11: Container Interface.
 * Fixed phpunit config
+
+## v1.3.0 (2017-07-12)
+* Added implement PSR-7: HTTP Message Interfaces
