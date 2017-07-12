@@ -1,7 +1,6 @@
 <?php
 
 namespace TastPHP\Framework\Container;
-
 /**
  * Class Container
  * @package TastPHP\Framework\Container

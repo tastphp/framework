@@ -2,5 +2,5 @@ version: v1.0.0
 debug: true
 secret: tastphp-framework
 # dev | test | prod
-env: dev
+env: test
 timezone: UTC

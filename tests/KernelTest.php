@@ -1,6 +1,8 @@
 <?php
 
-class KernelTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class KernelTest extends TestCase
 {
     public function testInstance()
     {
