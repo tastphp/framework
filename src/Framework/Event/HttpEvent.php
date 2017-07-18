@@ -2,8 +2,8 @@
 
 namespace TastPHP\Framework\Event;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\HttpFoundation\Request;
 
 final class HttpEvent extends Event
 {
@@ -11,7 +11,7 @@ final class HttpEvent extends Event
 
     protected $response;
 
-    public function __construct(Request $request = null, $response = null)
+    public function __construct(ServerRequestInterface $request = null, $response = null)
     {
         $this->request = $request;
         $this->response = $response;
