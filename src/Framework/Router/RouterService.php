@@ -2,7 +2,9 @@
 
 namespace TastPHP\Framework\Router;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use TastPHP\Framework\Request\Request;
 
 /**
  * Class Route
@@ -158,13 +160,14 @@ class Route
             throw new \Exception("Class " . $class . " exist ,But the Action " . $action . " not found");
         }
 
-        $request = $container['Request'];
+        $symfonyRequest = $container['symfonyRequest'];
+
         if ($this->query) {
-            $request->query = new ParameterBag($this->query);
+            $symfonyRequest->query = new ParameterBag($this->query);
         }
 
         if ($this->parameters) {
-            $request->attributes = new ParameterBag($this->parameters);
+            $symfonyRequest->attributes = new ParameterBag($this->parameters);
         }
 
         if ($this->middleware) {
@@ -175,12 +178,21 @@ class Route
 
         $instance = $reflector->newInstanceArgs(array($container));
         $method = $reflector->getmethod($action);
+
         $args = [];
         $parameters = $this->parameters;
         foreach ($method->getParameters() as $arg) {
             $paramName = $arg->getName();
-            if (isset($parameters[$paramName])) $args[$paramName] = $parameters[$paramName];
-            if (!empty($arg->getClass()) && $arg->getClass()->getName() == 'Symfony\Component\HttpFoundation\Request') $args[$paramName] = $request;
+            if (isset($parameters[$paramName])) {
+                $args[$paramName] = $parameters[$paramName];
+            }
+            if (!empty($arg->getClass()) && $arg->getClass()->getName() == (ServerRequestInterface::class)) {
+                $args[$paramName] = $container['Request'];
+            }
+
+            if (!empty($arg->getClass()) && $arg->getClass()->getName() == (Request::class)) {
+                $args[$paramName] = $container['symfonyRequest'];
+            }
         }
 
         return $method->invokeArgs($instance, $args);
@@ -253,10 +265,9 @@ class RouterService
      */
     public function matchCurrentRequest()
     {
-        $request = self::$parameters['Request'];
+        $request = self::$parameters['symfonyRequest'];
         $requestMethod = $request->getMethod();
         $pathInfo = $request->getPathInfo();
-
         $webPath = self::$webPath;
         if (is_file($webPath . $pathInfo) && file_exists($webPath . $pathInfo)) {
             $content = file_get_contents(__BASEDIR__ . '/web/' . $pathInfo);
@@ -277,7 +288,7 @@ class RouterService
     {
         $isRegexp = false;
 
-        $this->_bind();
+        $this->bind();
 
         foreach ($this->routes->all() as $route) {
 
@@ -300,7 +311,7 @@ class RouterService
                 return $route->dispatch(self::$parameters);
             }
 
-            $isRegexp = $this->_PregMatch($url, $requestUrl, $route);
+            $isRegexp = $this->pregMatch($url, $requestUrl, $route);
 
             if (!in_array($requestUrl, (array)$url) && $isRegexp == false) {
                 continue;
@@ -370,7 +381,7 @@ class RouterService
     }
 
     //bind name
-    private function _bind()
+    private function bind()
     {
         foreach ($this->routes->all() as $route) {
             $name = $route->getName();
@@ -387,7 +398,7 @@ class RouterService
      * @return bool
      * @throws \Exception
      */
-    private function _PregMatch($url, $requestUrl, $route)
+    private function pregMatch($url, $requestUrl, $route)
     {
         $replace = [];
         $search = [];

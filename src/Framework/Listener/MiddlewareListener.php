@@ -2,6 +2,7 @@
 
 namespace TastPHP\Framework\Listener;
 
+use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\EventDispatcher\Event;
 use TastPHP\Service\ServiceKernel;
 use TastPHP\Framework\Event\AppEvent;
@@ -17,7 +18,7 @@ class MiddlewareListener
 
         $container = $event->getParameters();
         $csrfToken = $container['csrfToken'];
-        $request = $container['Request'];
+        $request = $container['symfonyRequest'];
 
         if (!empty($container['CurrentRoute']) && (isset($container['CurrentRoute']->config['csrf']) && false === $container['CurrentRoute']->config['csrf'])) {
             $request->request->remove("_csrf_token");
@@ -36,17 +37,17 @@ class MiddlewareListener
                 $request->request->remove("_csrf_token");
             } else {
                 $response = new JsonResponse([
-                        'name' => 'badCSRFToken',
-                    ], 403
+                    'name' => 'badCSRFToken',
+                ], 403
                 );
                 $this->app->singleton('eventDispatcher')->dispatch(AppEvent::RESPONSE, new \TastPHP\Framework\Event\HttpEvent(null, $response));
             }
         }
 
         $user = $this->getUser($request);
-        
+
         $this->app['app.user'] = $user;
-     
+
         $this->app->singleton('twig')->addGlobal('app', ['user' => $user, 'debug' => $this->app['debug']]);
     }
 
