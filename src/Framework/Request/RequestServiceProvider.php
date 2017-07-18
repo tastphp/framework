@@ -18,18 +18,20 @@ class RequestServiceProvider extends ServiceProvider
             return Request::createFromGlobals();
         });
 
-        $this->app->singleton('psr7Factory', function () {
-            return new DiactorosFactory();
-        });
+        if (!$this->app->runningInConsole()) {
+            $this->app->singleton('psr7Factory', function () {
+                return new DiactorosFactory();
+            });
 
-        $this->app->singleton('httpFoundationFactory', function () {
-            return new HttpFoundationFactory();
-        });
+            $this->app->singleton('httpFoundationFactory', function () {
+                return new HttpFoundationFactory();
+            });
 
-        $this->app->singleton('Request', function () {
-            return RequestAdapter::convertPsr7Request(Request::createFromGlobals());
-        });
-
-
+            $this->app->singleton('Request', function () {
+                return RequestAdapter::convertPsr7Request(Request::createFromGlobals());
+            });
+        } else {
+            $this->app['Request'] = $this->app['symfonyRequest'];
+        }
     }
 }
