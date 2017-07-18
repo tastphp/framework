@@ -26,6 +26,7 @@ use TastPHP\Framework\Logger\Logger;
 use TastPHP\Framework\Logger\LoggerServiceProvider;
 use TastPHP\Framework\Queue\Queue;
 use TastPHP\Framework\Queue\QueueServiceProvider;
+use TastPHP\Framework\Request\RequestServiceProvider;
 use TastPHP\Framework\Router\Router;
 use TastPHP\Framework\Router\RouterServiceProvider;
 use TastPHP\Framework\Service\ServiceProvider;
@@ -71,6 +72,7 @@ class Kernel extends Container
      */
     protected $serviceProviders = [
         'Config' => ConfigServiceProvider::class,
+        'Request' => RequestServiceProvider::class,
         'Redis' => RedisServiceProvider::class,
         'Cache' => CacheServiceProvider::class,
         'FileCache' => FileCacheServiceProvider::class,
