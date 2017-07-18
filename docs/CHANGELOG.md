@@ -23,3 +23,6 @@
 ## v1.3.2 (2017-07-17)
 * Removed RequestListener
 * Modify ListenerRegisterService Logic
+
+## v1.4.0 (2017-07-18)
+* Add RequestServiceProvider and Compatible PSR-7
