@@ -6,18 +6,13 @@ use TastPHP\Framework\Kernel;
 
 class HttpAdapter
 {
-    protected function getPsr7Factory()
+    protected static function getPsr7Factory()
     {
-        return $this->getKernel()['psr7Factory'];
+        return Kernel::getInstance()['psr7Factory'];
     }
 
-    protected function getHttpFactory()
+    protected static function getHttpFactory()
     {
-        return $this->getKernel()['httpFoundationFactory'];
-    }
-
-    protected function getKernel()
-    {
-        return Kernel::getInstance();
+        return Kernel::getInstance()['httpFoundationFactory'];
     }
 }

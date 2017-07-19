@@ -2,6 +2,8 @@
 
 namespace TastPHP\Framework\Adapter;
 
+use TastPHP\Framework\Http\Response;
+
 /**
  * Class ResponseAdapter
  * @package TastPHP\Framework\Adapter

@@ -2,6 +2,8 @@
 
 namespace TastPHP\Framework\Adapter;
 
+use TastPHP\Framework\Http\Request;
+
 /**
  * Class RequestAdapter
  * @package TastPHP\Framework\Adapter
