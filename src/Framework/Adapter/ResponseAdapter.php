@@ -1,12 +1,12 @@
 <?php
 
-namespace TastPHP\Framework\Response;
+namespace TastPHP\Framework\Adapter;
 
 /**
  * Class ResponseAdapter
- * @package TastPHP\Framework\Response
+ * @package TastPHP\Framework\Adapter
  */
-class ResponseAdapter
+class ResponseAdapter extends HttpAdapter
 {
     /**
      * @param Response $symfonyResponse
@@ -14,8 +14,7 @@ class ResponseAdapter
      */
     public static function convertPsr7Response(Response $symfonyResponse)
     {
-        $app = \Kernel::getInstance();
-        $psr7Factory = $app['psr7Factory'];
+        $psr7Factory = self::getPsr7Factory();
 
         return $psr7Factory->createResponse($symfonyResponse);
     }
@@ -26,9 +25,8 @@ class ResponseAdapter
      */
     public static function convertSymfonyResponse($psrResponse)
     {
-        $app = \Kernel::getInstance();
-        $httpFoundationFactory = $app['httpFoundationFactory'];
+        $httpFactory = self::getHttpFactory();
 
-        return $httpFoundationFactory->createResponse($psrResponse);
+        return $httpFactory->createResponse($psrResponse);
     }
 }

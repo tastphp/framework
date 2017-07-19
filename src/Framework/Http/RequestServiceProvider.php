@@ -1,14 +1,15 @@
 <?php
 
-namespace TastPHP\Framework\Request;
+namespace TastPHP\Framework\Http;
 
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
+use TastPHP\Framework\Adapter\RequestAdapter;
 use TastPHP\Framework\Service\ServiceProvider;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 /**
  * Class RequestServiceProvider
- * @package TastPHP\Framework\Request
+ * @package TastPHP\Framework\Http
  */
 class RequestServiceProvider extends ServiceProvider
 {

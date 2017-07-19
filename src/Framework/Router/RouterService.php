@@ -4,7 +4,7 @@ namespace TastPHP\Framework\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use TastPHP\Framework\Request\Request;
+use TastPHP\Framework\Http\Request;
 
 /**
  * Class Route

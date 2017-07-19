@@ -1,12 +1,12 @@
 <?php
 
-namespace TastPHP\Framework\Request;
+namespace TastPHP\Framework\Adapter;
 
 /**
  * Class RequestAdapter
- * @package TastPHP\Framework\Request
+ * @package TastPHP\Framework\Adapter
  */
-class RequestAdapter
+class RequestAdapter extends HttpAdapter
 {
     /**
      * @param Request $symfonyRequest
@@ -14,8 +14,7 @@ class RequestAdapter
      */
     public static function convertPsr7Request(Request $symfonyRequest)
     {
-        $app = \Kernel::getInstance();
-        $psr7Factory = $app['psr7Factory'];
+        $psr7Factory = self::getPsr7Factory();
 
         return $psr7Factory->createRequest($symfonyRequest);
     }
@@ -26,9 +25,8 @@ class RequestAdapter
      */
     public static function convertSymfonyRequest($psrRequest)
     {
-        $app = \Kernel::getInstance();
-        $httpFoundationFactory = $app['httpFoundationFactory'];
+        $httpFactory = self::getHttpFactory();
 
-        return $httpFoundationFactory->createRequest($psrRequest);
+        return $httpFactory->createRequest($psrRequest);
     }
 }
