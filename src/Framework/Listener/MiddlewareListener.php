@@ -2,7 +2,6 @@
 
 namespace TastPHP\Framework\Listener;
 
-use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\EventDispatcher\Event;
 use TastPHP\Service\ServiceKernel;
 use TastPHP\Framework\Event\AppEvent;

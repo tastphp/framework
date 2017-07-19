@@ -10,7 +10,7 @@ class RequestAdapter
 {
     /**
      * @param Request $symfonyRequest
-     * @return mixed
+     * @return psrRequest
      */
     public static function convertPsr7Request(Request $symfonyRequest)
     {
@@ -22,12 +22,13 @@ class RequestAdapter
 
     /**
      * @param $psrRequest
-     * @return mixed
+     * @return SymfonyRequest
      */
     public static function convertSymfonyRequest($psrRequest)
     {
         $app = \Kernel::getInstance();
-        $httpFoundationFactory = $app['httpFoundationFactory'];;
+        $httpFoundationFactory = $app['httpFoundationFactory'];
+
         return $httpFoundationFactory->createRequest($psrRequest);
     }
 }
