@@ -4,9 +4,9 @@ namespace TastPHP\Framework\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
-class FilterControllerEvent extends Event
+class MiddlewareEvent extends Event
 {
-    const NAME = 'filter.controller';
+    const NAME = AppEvent::MIDDLEWARE;
 
     private static $container = null;
 

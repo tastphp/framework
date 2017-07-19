@@ -3,14 +3,14 @@
 namespace TastPHP\Framework\ListenerRegister;
 
 use TastPHP\Framework\Container\Container;
-use TastPHP\Framework\Event\FilterControllerEvent;
+use TastPHP\Framework\Event\MiddlewareEvent;
 
 class ListenerRegisterService
 {
     public function register(Container $app)
     {
-        $app['filterControllerEvent'] = function ($app) {
-            return new FilterControllerEvent($app);
+        $app['middlewareEvent'] = function ($app) {
+            return new MiddlewareEvent($app);
         };
 
         $this->registerKernelListeners($app);

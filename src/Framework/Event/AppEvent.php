@@ -12,6 +12,8 @@ final class AppEvent extends Event
 
     const REQUEST = "app.request";
 
+    const MIDDLEWARE = "app.middleware";
+
     const EXCEPTION = "app.exception";
 
     const NOTFOUND = "app.notfound";

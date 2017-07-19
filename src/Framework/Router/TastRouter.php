@@ -39,7 +39,7 @@ class TastRouter
             return new Route('', []);
         };
 
-        RouterService::setMiddleware($app['eventDispatcher'], $app['filterControllerEvent']);
+        RouterService::setMiddleware($app['eventDispatcher'], $app['middlewareEvent']);
         RouterService::setParameters($app);
     }
 
