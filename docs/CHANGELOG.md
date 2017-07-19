@@ -29,3 +29,7 @@
 
 ## v1.4.1 (2017-07-19)
 * Add ResponseAdapter and Compatible PSR-7
+
+## v1.5.0 (2017-07-19)
+* Refactor Http component
+* Added HttpAdapter
