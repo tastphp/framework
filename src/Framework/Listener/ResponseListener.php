@@ -13,15 +13,16 @@ class ResponseListener
     {
         $response = $event->getResponse();
 
+        if (is_string($response)) {
+            echo $response;
+            return;
+        }
+
         if ($response instanceof Response
             || $response instanceof RedirectResponse
             || $response instanceof JsonResponse
         ) {
             $response->send();
-        }
-
-        if (is_string($response)) {
-            echo $response;
         }
 
         if (function_exists('fastcgi_finish_request')) {

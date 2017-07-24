@@ -190,7 +190,7 @@ class Route
                 $args[$paramName] = $container['Request'];
             }
 
-            if (!empty($arg->getClass()) && $arg->getClass()->getName() == (Request::class)) {
+            if (!empty($arg->getClass()) && $arg->getClass()->getName() == (Request::class || \Symfony\Component\HttpFoundation\Request::class)) {
                 $args[$paramName] = $container['symfonyRequest'];
             }
         }
