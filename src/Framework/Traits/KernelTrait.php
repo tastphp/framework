@@ -15,7 +15,10 @@ trait KernelTrait
      */
     public function run()
     {
-        $this['eventDispatcher']->dispatch(AppEvent::RESPONSE, new \TastPHP\Framework\Event\HttpEvent(null, $this['router']->matchCurrentRequest()));
+        $httpEvent = $this['eventDispatcher']->dispatch(AppEvent::RESPONSE, new \TastPHP\Framework\Event\HttpEvent(null, $this['router']->matchCurrentRequest(),$this));
+        if (!empty($this['swoole'])) {
+            return $httpEvent;
+        }
     }
 
     /**

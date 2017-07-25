@@ -10,10 +10,13 @@ final class HttpEvent extends Event
 
     protected $response;
 
-    public function __construct($request = null, $response = null)
+    protected $parameters;
+
+    public function __construct($request = null, $response = null, $parameters = null)
     {
         $this->request = $request;
         $this->response = $response;
+        $this->parameters = $parameters;
     }
 
     public function getResponse()
@@ -24,5 +27,10 @@ final class HttpEvent extends Event
     public function getRequest()
     {
         return $this->request;
+    }
+
+    public function getParameters()
+    {
+        return $this->parameters;
     }
 }

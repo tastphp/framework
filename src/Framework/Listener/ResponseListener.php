@@ -12,8 +12,12 @@ class ResponseListener
     public function onResponseAction(Event $event)
     {
         $response = $event->getResponse();
+        $app = $event->getParameters();
 
         if (is_string($response)) {
+            if (!empty($app['swoole'])) {
+                return $response;
+            }
             echo $response;
             return;
         }
