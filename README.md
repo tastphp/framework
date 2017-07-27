@@ -31,7 +31,6 @@
 ## Requirements
 
   * PHP 5.6+ or PHP 7+
-  * Redis extension
 
 
 ## Installation
