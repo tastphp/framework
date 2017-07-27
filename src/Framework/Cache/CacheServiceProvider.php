@@ -22,6 +22,9 @@ class CacheServiceProvider extends ServiceProvider
 
         if ($cache == 'redisCache') {
             $this->app->singleton($cache, function () {
+                if (!extension_loaded('redis')) {
+                    return null;
+                }
                 return new RedisCacheService($this->app->singleton('redis'));
             });
         }

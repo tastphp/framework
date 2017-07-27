@@ -18,9 +18,13 @@ class RedisServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if (!extension_loaded('redis')) {
+            return null;
+        }
+
         $this->app->singleton('redis', function () {
 
-            $config = \Config::parse('redis',[
+            $config = \Config::parse('redis', [
                 'host' => '127.0.0.1',
                 'port' => 6379,
                 'connect' => 'persistence',
