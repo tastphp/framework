@@ -30,7 +30,7 @@
 
 ## Requirements
 
-  * PHP 5.6+ or PHP 7+
+  * PHP 7+
 
 
 ## Installation
