@@ -12,8 +12,11 @@ class CsrfTokenServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton('csrfToken', function () {
-            return new CsrfTokenService($this->app['csrf.secret'], $this->app['csrf.ttl']);
+        $csrfSecret = $this->app['csrf.secret'] ?? 'tastphp.token';
+        $csrfTtl = $this->app['csrf.ttl'] ?? 1440;
+
+        $this->app->singleton('csrfToken', function () use ($csrfSecret,$csrfTtl) {
+            return new CsrfTokenService($csrfSecret, $csrfTtl);
         });
     }
 }

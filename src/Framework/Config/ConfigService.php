@@ -27,12 +27,22 @@ class ConfigService
 
     public function parseResource($resource, $isCustom = false)
     {
+        $config = [];
         if (true == $isCustom) {
             $config = \Yaml::parse(file_get_contents(__BASEDIR__ . "/src/{$resource}"));
         }
 
         if (false == $isCustom) {
-            $config = \Yaml::parse(file_get_contents(__BASEDIR__ . "/config/{$resource}"));
+            $config['version'] = APP_VERSION;
+            $config['debug'] = true;
+            $config['secret'] = 'tastphp';
+            $config['env'] = 'tastphp';
+            $config['timezone'] = 'UTC';
+            $config['name'] = 'tastphp';
+
+            if (file_exists(__BASEDIR__ . "/config/{$resource}")) {
+                $config = \Yaml::parse(file_get_contents(__BASEDIR__ . "/config/{$resource}"));
+            }
         }
 
         if (!$config) {
@@ -48,7 +58,7 @@ class ConfigService
         $config = [];
         $serviceName = strtolower($serviceName);
 
-        if(file_exists(__BASEDIR__ . "/config/{$serviceName}.yml")) {
+        if (file_exists(__BASEDIR__ . "/config/{$serviceName}.yml")) {
             $config = \Yaml::parse(file_get_contents(__BASEDIR__ . "/config/{$serviceName}.yml"));
         }
 
