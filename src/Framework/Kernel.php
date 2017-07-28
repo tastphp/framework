@@ -99,7 +99,7 @@ class Kernel extends Container
     public function __construct(array $values = [])
     {
         $start = microtime(true);
-        $this['version'] = 'v1.5.0';
+        $this['version'] = 'v1.6.0';
         $this['start_time'] = $start;
         self::$instance = $this;
         parent::__construct($values);

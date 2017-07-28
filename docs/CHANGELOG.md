@@ -33,3 +33,7 @@
 ## v1.5.0 (2017-07-19)
 * Refactor Http component
 * Added HttpAdapter
+
+## v1.6.0 (2017-07-28)
+* not support php56
+* Fixed when config file not exits
