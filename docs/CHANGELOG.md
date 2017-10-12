@@ -37,3 +37,6 @@
 ## v1.6.0 (2017-07-28)
 * not support php56
 * Fixed when config file not exits
+
+## v1.6.1 (2017-10-12)
+* Fixed console command bug when integrate to Tastphp
