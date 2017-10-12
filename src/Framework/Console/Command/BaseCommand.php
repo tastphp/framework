@@ -41,6 +41,11 @@ class BaseCommand extends Command
         chdir(__BASEDIR__ . "/{$dir}");
     }
 
+    protected function getTemplateDir()
+    {
+        return __IMPORT_DIR__ . "/Console/Command/Template";
+    }
+
     private function processName($name)
     {
         list($name, $names) = $this->handleName($name);

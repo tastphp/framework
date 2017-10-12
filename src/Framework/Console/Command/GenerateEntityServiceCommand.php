@@ -24,7 +24,6 @@ class GenerateEntityServiceCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->changeDir('src/');
         $name = $input->getArgument('name');
         if ($name) {
             $this->generateEntityService($output, $name);
@@ -42,31 +41,33 @@ class GenerateEntityServiceCommand extends BaseCommand
         $tableName = $name;
         $name = $this->getGenerateEntityServiceNameByTableName($tableName);
         $filesystem = new Filesystem();
+        $serviceDir = __EXPORT_DIR__ . "/src/Service/" . $name;
+        $templateDir = $this->getTemplateDir();
         //service file
-        $filesystem->mkdir("Service/$name");
-        $serviceContent = file_get_contents(__DIR__ . "/Template/EntityService.txt");
+        $filesystem->mkdir($serviceDir);
+        $serviceContent = file_get_contents($templateDir . "/EntityService.txt");
         $serviceContent = str_replace('Entity', $name, $serviceContent);
         $serviceContent = str_replace('entity', lcfirst($name), $serviceContent);
-        $filesystem->dumpFile("Service/$name/{$name}Service.php", $serviceContent);
+        $filesystem->dumpFile($serviceDir . "/{$name}Service.php", $serviceContent);
         //service Impl file
-        $filesystem->mkdir("Service/$name/Impl");
-        $serviceImplContent = file_get_contents(__DIR__ . "/Template/EntityServiceImpl.txt");
+        $filesystem->mkdir($serviceDir . "/Impl");
+        $serviceImplContent = file_get_contents($templateDir . "/EntityServiceImpl.txt");
         $serviceImplContent = str_replace('Entity', $name, $serviceImplContent);
         $serviceImplContent = str_replace('entity', lcfirst($name), $serviceImplContent);
-        $filesystem->dumpFile("Service/$name/Impl/{$name}ServiceImpl.php", $serviceImplContent);
+        $filesystem->dumpFile($serviceDir . "/Impl/{$name}ServiceImpl.php", $serviceImplContent);
         //Dao file
-        $filesystem->mkdir("Service/$name/Dao");
-        $daoContent = file_get_contents(__DIR__ . "/Template/EntityDao.txt");
+        $filesystem->mkdir($serviceDir . "/Dao");
+        $daoContent = file_get_contents($templateDir . "/EntityDao.txt");
         $daoContent = str_replace('Entity', $name, $daoContent);
         $daoContent = str_replace('entity', lcfirst($name), $daoContent);
-        $filesystem->dumpFile("Service/$name/Dao/{$name}Dao.php", $daoContent);
+        $filesystem->dumpFile($serviceDir . "/Dao/{$name}Dao.php", $daoContent);
         //Dao Impl file
-        $filesystem->mkdir("Service/$name/Dao/Impl");
-        $daoImplContent = file_get_contents(__DIR__ . "/Template/EntityDaoImpl.txt");
+        $filesystem->mkdir($serviceDir . "/Dao/Impl");
+        $daoImplContent = file_get_contents($templateDir . "/EntityDaoImpl.txt");
         $daoImplContent = str_replace('Entity', $name, $daoImplContent);
         $daoImplContent = str_replace('entity', lcfirst($name), $daoImplContent);
         $daoImplContent = str_replace('{{tableName}}', $tableName, $daoImplContent);
-        $filesystem->dumpFile("Service/$name/Dao/Impl/{$name}DaoImpl.php", $daoImplContent);
+        $filesystem->dumpFile($serviceDir . "/Dao/Impl/{$name}DaoImpl.php", $daoImplContent);
         $output->writeln("<fg=black;bg=green>You have success generate {$name}Service(Dao)</>");
     }
 }

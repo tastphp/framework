@@ -1,14 +1,14 @@
 <?php
+
 namespace TastPHP\Framework\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
 
-class GenerateBundleCommand extends Command
+class GenerateBundleCommand extends BaseCommand
 {
     protected function configure()
     {
@@ -24,7 +24,6 @@ class GenerateBundleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->changeDir('src/');
         $name = $input->getArgument('name');
 
         if ($name) {
@@ -33,7 +32,7 @@ class GenerateBundleCommand extends Command
         }
 
         $helper = $this->getHelper('question');
-        $question = new Question('Please enter the name of the bundle:', 'DemoBundle');
+        $question = new Question('Please enter the name of the bundle (default:DemoBundle):', 'DemoBundle');
         $name = $helper->ask($input, $output, $question);
         $this->generateBundleService($output, $name);
     }
@@ -46,35 +45,37 @@ class GenerateBundleCommand extends Command
             );
         }
         $name = ucfirst($name);
-        $this->generateBundleDir($name);
-        $this->updateRoutesConfig($name);
-        $this->updateConfig($name);
+        $templateDir = $this->getTemplateDir();
+        $bundleDir = __EXPORT_DIR__ . "/src/" . $name;
+        $this->generateBundleDir($bundleDir);
+        $this->updateRoutesConfig($name, $templateDir);
+        $this->updateConfig($name, $templateDir);
         $output->writeln("<fg=black;bg=green>You have success generate {$name}Bundle</>");
     }
 
-    private function generateBundleDir($name)
+    private function generateBundleDir($bundleDir)
     {
         $filesystem = new Filesystem();
-        $filesystem->mkdir("{$name}/Config");
-        $filesystem->dumpFile("{$name}/Config/routes.yml", '');
-        $filesystem->mkdir("{$name}/Controller");
-        $filesystem->dumpFile("{$name}/Controller/.gitkeep", '');
-        $filesystem->mkdir("{$name}/Listener");
-        $filesystem->dumpFile("{$name}/Listener/.gitkeep", '');
+        $filesystem->mkdir("{$bundleDir}/Config");
+        $filesystem->dumpFile("{$bundleDir}/Config/routes.yml", '');
+        $filesystem->mkdir("{$bundleDir}/Controller");
+        $filesystem->dumpFile("{$bundleDir}/Controller/.gitkeep", '');
+        $filesystem->mkdir("{$bundleDir}/Listener");
+        $filesystem->dumpFile("{$bundleDir}/Listener/.gitkeep", '');
     }
 
-    private function updateRoutesConfig($name)
+    private function updateRoutesConfig($name, $templateDir)
     {
-        $routesConfigContent = file_get_contents(__DIR__ . "/Template/routesConfig.txt");
+        $routesConfigContent = file_get_contents($templateDir . "/routesConfig.txt");
         $routesConfigContent = str_replace('{{demo}}', $name, $routesConfigContent);
-        file_put_contents(__BASEDIR__ . "/config/routes.yml", PHP_EOL . $routesConfigContent, FILE_APPEND);
+        file_put_contents(__EXPORT_DIR__ . "/config/routes.yml", PHP_EOL . $routesConfigContent, FILE_APPEND);
     }
 
-    private function updateConfig($name)
+    private function updateConfig($name, $templateDir)
     {
-        $configContent = file_get_contents(__DIR__ . "/Template/config.txt");
+        $configContent = file_get_contents($templateDir . "/config.txt");
         $configContent = str_replace('{{Demo}}', $name, $configContent);
         $configContent = str_replace('{{demo}}', lcfirst($name), $configContent);
-        file_put_contents(__BASEDIR__ . "/config/config.yml", PHP_EOL . $configContent, FILE_APPEND);
+        file_put_contents(__EXPORT_DIR__ . "/config/config.yml", PHP_EOL . $configContent, FILE_APPEND);
     }
 }
