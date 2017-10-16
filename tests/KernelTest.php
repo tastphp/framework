@@ -7,9 +7,7 @@ class KernelTest extends TestCase
     public function testInstance()
     {
         $this->assertEquals(is_object($this->getKernelInstance()), true);
-        $this->assertEquals(is_object($this->getKernelMinInstance()), true);
         $this->assertEquals(is_object(\TastPHP\Framework\Kernel::getInstance()), true);
-        $this->assertEquals(is_object(\TastPHP\Framework\KernelMin::getInstance()), true);
     }
 
     public function testSingleton()
