@@ -22,7 +22,7 @@ class TastRouter
         if (file_exists($routeCacheFile) && (!$app['debug'])) {
             $routeConfigAll = require $routeCacheFile;
         } else {
-            $routeConfigAll = $this->parseAllRoutes($app,$routeConfigAll);
+            $routeConfigAll = $this->parseAllRoutes($app, $routeConfigAll);
 
             if (!$app['debug']) {
                 $fs = new Filesystem();
@@ -42,7 +42,7 @@ class TastRouter
         RouterService::setParameters($app);
     }
 
-    private function parseAllRoutes($app,$routeConfigAll = [])
+    private function parseAllRoutes($app, $routeConfigAll = [])
     {
         $routeConfigAll = $this->parseRoutesConfig(__BASEDIR__ . '/config/routes.yml', $routeConfigAll);
 
@@ -62,7 +62,10 @@ class TastRouter
             if (is_file(__BASEDIR__ . "/src/" . $resource) && file_exists(__BASEDIR__ . "/src/" . $resource)) {
                 $array = YamlService::parse(file_get_contents(__BASEDIR__ . "/src/" . $resource));
             }
-            $routeConfigAll = array_merge($routeConfigAll, $array);
+
+            if (!empty($array)) {
+                $routeConfigAll = array_merge($routeConfigAll, $array);
+            }
         }
 
         return $routeConfigAll;
