@@ -16,6 +16,10 @@ class YamlService
      */
     public static function parse($input)
     {
+        if (empty($input)) {
+            return null;
+        }
+
         if (extension_loaded("yaml")) {
             return \yaml_parse($input);
         }
