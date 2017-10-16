@@ -40,3 +40,9 @@
 
 ## v1.6.1 (2017-10-12)
 * Fixed console command bug when integrate to Tastphp
+
+## v1.7.0 (2017-10-16)
+* refactor kernel && optimize config service, enhance performance 10X!
+* Fixed Router merge route array bug when route empty
+* Fixed YamlService parse empty string warning
+* clean code for kernel Listener && remove business logic Listeners (src/Framework/Listener/MailListener.php、src/Framework/Listener/MiddlewareListener.php)
