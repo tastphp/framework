@@ -21,7 +21,7 @@ class ExceptionListener
 
         if ($app['env'] == 'prod') {
             $app['Request'] = Request::createFromGlobals();
-            $response = $app['twig']->render('errors/500.html');
+            $response = "500";
         } else {
             $response = new Response($event->getTrace(), 500);
         }

@@ -11,7 +11,7 @@ class NotFoundListener
     {
         $app = \Kernel::getInstance();
         $app['Request'] = $event->getRequest();
-        $response =  $app['twig']->render('errors/404.html');
+        $response =  "404";
         $app['eventDispatcher']->dispatch(AppEvent::RESPONSE, new HttpEvent(null, $response));
     }
 }
