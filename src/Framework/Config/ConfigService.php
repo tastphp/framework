@@ -19,7 +19,7 @@ class ConfigService
 
     public function register()
     {
-        $configs = \Yaml::parse(file_get_contents(__BASEDIR__ . '/config/config.yml'));
+        $configs = YamlService::parse(file_get_contents(__BASEDIR__ . '/config/config.yml'));
         $this->registerAppConfig($configs);
         date_default_timezone_set($this->app['timezone']);
         $this->registerBusinessConfig($configs);
@@ -29,7 +29,7 @@ class ConfigService
     {
         $config = [];
         if (true == $isCustom) {
-            $config = \Yaml::parse(file_get_contents(__BASEDIR__ . "/src/{$resource}"));
+            $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/src/{$resource}"));
         }
 
         if (false == $isCustom) {
@@ -41,7 +41,7 @@ class ConfigService
             $config['name'] = 'tastphp';
 
             if (file_exists(__BASEDIR__ . "/config/{$resource}")) {
-                $config = \Yaml::parse(file_get_contents(__BASEDIR__ . "/config/{$resource}"));
+                $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/config/{$resource}"));
             }
         }
 
@@ -59,7 +59,7 @@ class ConfigService
         $serviceName = strtolower($serviceName);
 
         if (file_exists(__BASEDIR__ . "/config/{$serviceName}.yml")) {
-            $config = \Yaml::parse(file_get_contents(__BASEDIR__ . "/config/{$serviceName}.yml"));
+            $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/config/{$serviceName}.yml"));
         }
 
         if (!$config) {
@@ -84,7 +84,7 @@ class ConfigService
 
     public function get($serviceName, $key)
     {
-        $config = \Yaml::parse(file_get_contents(__BASEDIR__ . "/config/{$serviceName}.yml"));
+        $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/config/{$serviceName}.yml"));
         if (!$config) {
             throw new \Exception("Can not found {$serviceName} config file,please check it");
         }

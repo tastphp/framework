@@ -2,9 +2,8 @@
 
 namespace TastPHP\Framework\Router;
 
+use TastPHP\Framework\Config\YamlService;
 use TastPHP\Framework\Container\Container;
-use TastPHP\Framework\Router\RouterService;
-use TastPHP\Framework\Router\Route;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -57,11 +56,11 @@ class TastRouter
     private function parseRoutesConfig($routesFile, $routeConfigAll)
     {
         $array = [];
-        $routesConfigs = \Yaml::parse(file_get_contents($routesFile));
+        $routesConfigs = YamlService::parse(file_get_contents($routesFile));
         foreach ($routesConfigs as $routeConfig) {
             $resource = ($routeConfig['resource']);
             if (is_file(__BASEDIR__ . "/src/" . $resource) && file_exists(__BASEDIR__ . "/src/" . $resource)) {
-                $array = \Yaml::parse(file_get_contents(__BASEDIR__ . "/src/" . $resource));
+                $array = YamlService::parse(file_get_contents(__BASEDIR__ . "/src/" . $resource));
             }
             $routeConfigAll = array_merge($routeConfigAll, $array);
         }

@@ -61,8 +61,10 @@ trait KernelTrait
     public function registerServices()
     {
         foreach ($this->serviceProviders as $provider) {
-            $provider = new $provider(self::$instance);
-            $provider->register();
+            if (class_exists($provider)) {
+                $provider = new $provider(self::$instance);
+                $provider->register();
+            }
         }
     }
 

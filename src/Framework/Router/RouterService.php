@@ -25,7 +25,7 @@ class Route
 
     private $name = null;
 
-    private $nameKey = 'routeName';//路由名的key值
+    private $nameKey = 'routeName';
 
     private $pattern = '\w+';
 

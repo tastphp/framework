@@ -2,6 +2,7 @@
 
 namespace TastPHP\Framework\ListenerRegister;
 
+use TastPHP\Framework\Config\YamlService;
 use TastPHP\Framework\Container\Container;
 use TastPHP\Framework\Event\MiddlewareEvent;
 
@@ -58,7 +59,7 @@ class ListenerRegisterService
             $resource = ($listenerConfig['resource']);
 
             if (is_file(__BASEDIR__ . "/src/" . $resource) && file_exists(__BASEDIR__ . "/src/" . $resource)) {
-                $array = \Yaml::parse(file_get_contents(__BASEDIR__ . "/src/" . $resource));
+                $array = YamlService::parse(file_get_contents(__BASEDIR__ . "/src/" . $resource));
             }
 
             if (is_array($array)) {
