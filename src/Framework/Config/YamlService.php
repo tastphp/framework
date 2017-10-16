@@ -18,8 +18,8 @@ class YamlService
     {
         if (extension_loaded("yaml")) {
             return \yaml_parse($input);
-        } else {
-            return Yaml::parse($input);
         }
+
+        return Yaml::parse($input);
     }
 }
