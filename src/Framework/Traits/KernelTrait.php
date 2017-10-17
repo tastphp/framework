@@ -1,8 +1,19 @@
 <?php
+
 namespace TastPHP\Framework\Traits;
 
+use TastPHP\Framework\Cache\CacheServiceProvider;
+use TastPHP\Framework\Cache\FileCacheServiceProvider;
+use TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider;
+use TastPHP\Framework\Doctrine\DoctrineServiceProvider;
+use TastPHP\Framework\Event\MailEvent;
 use TastPHP\Framework\Handler\AliasLoaderHandler;
 use TastPHP\Framework\Event\AppEvent;
+use TastPHP\Framework\Jwt\JwtServiceProvider;
+use TastPHP\Framework\Logger\LoggerServiceProvider;
+use TastPHP\Framework\Queue\QueueServiceProvider;
+use TastPHP\Framework\SwiftMailer\SwiftMailerServiceProvider;
+use TastPHP\Framework\Twig\TwigServiceProvider;
 
 /**
  * Class KernelTrait
@@ -15,7 +26,7 @@ trait KernelTrait
      */
     public function run()
     {
-        $httpEvent = $this['eventDispatcher']->dispatch(AppEvent::RESPONSE, new \TastPHP\Framework\Event\HttpEvent(null, $this['router']->matchCurrentRequest(),$this));
+        $httpEvent = $this['eventDispatcher']->dispatch(AppEvent::RESPONSE, new \TastPHP\Framework\Event\HttpEvent(null, $this['router']->matchCurrentRequest(), $this));
         if (!empty($this['swoole'])) {
             return $httpEvent;
         }
@@ -145,5 +156,93 @@ trait KernelTrait
         }
 
         return $this->listeners;
+    }
+
+    //ServiceProvider register
+
+    protected function registerRedisService()
+    {
+        $this->replaceServiceProvider("Redis", RedisServiceProvider::class);
+    }
+
+    protected function registerCacheService()
+    {
+        $this->replaceServiceProvider("Cache", CacheServiceProvider::class);
+    }
+
+    protected function registerFileCacheService()
+    {
+        $this->replaceServiceProvider("FileCache", FileCacheServiceProvider::class);
+    }
+
+    protected function registerLoggerService()
+    {
+        $this->replaceServiceProvider("Logger", LoggerServiceProvider::class);
+    }
+
+    protected function registerTwigService()
+    {
+        $this->replaceServiceProvider("Twig", TwigServiceProvider::class);
+    }
+
+    protected function registerDoctrineService()
+    {
+        $this->replaceServiceProvider("Doctrine", DoctrineServiceProvider::class);
+    }
+
+    protected function registerCsrfTokenService()
+    {
+        $this->replaceServiceProvider("CsrfToken", CsrfTokenServiceProvider::class);
+    }
+
+    protected function registerJwtService()
+    {
+        $this->replaceServiceProvider("Jwt", JwtServiceProvider::class);
+    }
+
+    protected function registerSwiftMailerService()
+    {
+        $this->replaceServiceProvider("SwiftMailer", SwiftMailerServiceProvider::class);
+    }
+
+    protected function registerQueueService()
+    {
+        $this->replaceServiceProvider("Queue", QueueServiceProvider::class);
+    }
+
+    // kernel listener register
+
+    /**
+     * @param $listener
+     * @param string $action
+     */
+    protected function registerRequestListener($listener, $action = "onRequestAction")
+    {
+        $this->replaceListener(AppEvent::REQUEST, $listener, $action);
+    }
+
+    protected function registerMiddlewareListener($listener, $action = "onMiddlewareAction")
+    {
+        $this->replaceListener(AppEvent::MIDDLEWARE, $listener, $action);
+    }
+
+    protected function registerResponseListener($listener, $action = "onResponseAction")
+    {
+        $this->replaceListener(AppEvent::RESPONSE, $listener, $action);
+    }
+
+    protected function registerExceptionListener($listener, $action = "onExceptionAction")
+    {
+        $this->replaceListener(AppEvent::EXCEPTION, $listener, $action);
+    }
+
+    protected function registerMailListener($listener, $action = "onSendMailAction")
+    {
+        $this->replaceListener(MailEvent::MAIlSEND, $listener, $action);
+    }
+
+    protected function registerNotFoundListener($listener, $action = "onNotFoundPageAction")
+    {
+        $this->replaceListener(AppEvent::NOTFOUND, $listener, $action);
     }
 }
