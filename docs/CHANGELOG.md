@@ -46,3 +46,6 @@
 * Fixed Router merge route array bug when route empty
 * Fixed YamlService parse empty string warning
 * clean code for kernel Listener && remove business logic Listeners (src/Framework/Listener/MailListener.php、src/Framework/Listener/MiddlewareListener.php)
+
+## v1.7.1 (2017-10-17)
+* add register kernel listeners&&ServiceProvider wrapper
