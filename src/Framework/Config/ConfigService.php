@@ -30,36 +30,20 @@ class ConfigService
     {
         $configCacheFile = self::$configCacheDir . "/config.php";
 
-        if (file_exists($configCacheFile)) {
-            $configs = require $configCacheFile;
-        } else {
-            $configs = YamlService::parse(file_get_contents(__BASEDIR__ . '/config/config.yml'));
+        $config = $this->getConfig($configCacheFile, __BASEDIR__ . '/config/config.yml');
 
-            if ($this->enabledCache) {
-                $this->createCache($configs, $configCacheFile);
-            }
-        }
-
-        $this->registerAppConfig($configs);
+        $this->registerAppConfig($config);
         date_default_timezone_set($this->app['timezone']);
-        $this->registerBusinessConfig($configs);
+        $this->registerBusinessConfig($config);
     }
 
-    public function parseResource($resource, $isCustom = false)
+    public function parseResource($resource, $isCustom)
     {
         $config = [];
         if (true == $isCustom) {
-
             $configResourceDir = self::$configCacheDir . "/" . substr($resource, 0, -11);
             $configCacheFile = $configResourceDir . "/config.php";
-            if (file_exists($configCacheFile)) {
-                $config = require $configCacheFile;
-            } else {
-                $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/src/{$resource}"));
-                if ($this->enabledCache) {
-                    $this->createCache($config, $configCacheFile);
-                }
-            }
+            $config = $this->getConfig($configCacheFile, __BASEDIR__ . "/src/{$resource}");
         }
 
         if (false == $isCustom) {
@@ -71,19 +55,13 @@ class ConfigService
             $config['name'] = 'tastphp';
 
             $appConfigCacheFile = self::$configCacheDir . "/app.php";
-
-            if (file_exists($appConfigCacheFile)) {
-                $config = require $appConfigCacheFile;
-            } else {
-                $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/config/{$resource}"));
-                if ($this->enabledCache) {
-                    $this->createCache($config, $appConfigCacheFile);
-                }
-            }
+            $config = $this->getConfig($appConfigCacheFile, __BASEDIR__ . "/src/{$resource}");
         }
 
         if (!$config) {
-            if (isset($default)) return $default;
+            if (isset($default)) {
+                return $default;
+            }
             throw new \Exception("Can not found resource {$resource} file,please check it");
         }
 
@@ -94,18 +72,8 @@ class ConfigService
     {
         $config = [];
         $serviceName = strtolower($serviceName);
-
         $serviceConfigCacheFile = self::$configCacheDir . "/{$serviceName}.php";
-        if (file_exists($serviceConfigCacheFile)) {
-            $config = require $serviceConfigCacheFile;
-        } else {
-            if (file_exists(__BASEDIR__ . "/config/{$serviceName}.yml")) {
-                $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/config/{$serviceName}.yml"));
-                if ($this->enabledCache) {
-                    $this->createCache($config, $serviceConfigCacheFile);
-                }
-            }
-        }
+        $config = $this->getConfig($serviceConfigCacheFile, __BASEDIR__ . "/config/{$serviceName}.yml");
 
         if (!$config) {
             if (isset($default)) {
@@ -165,6 +133,26 @@ class ConfigService
         return $this->app;
     }
 
+    public static function getFilesystem()
+    {
+        if (!(self::$filesystem instanceof Filesystem)) {
+            self::$filesystem = new Filesystem;
+        }
+
+        return self::$filesystem;
+    }
+
+    public static function createCache($config, $configCacheFile, $configCacheDir)
+    {
+        if (empty($configCacheDir)) {
+            $configCacheDir = self::$configCacheDir;
+        }
+        $filesystem = self::getFilesystem();
+        $filesystem->mkdir($configCacheDir);
+        $content = "<?php return " . var_export($config, true) . ";";
+        file_put_contents($configCacheFile, $content);
+    }
+
     private function registerAppConfig($configs)
     {
         $configImports = $configs['imports'];
@@ -190,23 +178,24 @@ class ConfigService
         }
     }
 
-    public static function getFilesystem()
+    private function getConfig($configCacheFile, $parseFile)
     {
-        if (!(self::$filesystem instanceof Filesystem)) {
-            self::$filesystem = new Filesystem;
+        if (file_exists($configCacheFile)) {
+            return require $configCacheFile;
         }
 
-        return self::$filesystem;
-    }
-
-    public static function createCache($config, $configCacheFile, $configCacheDir)
-    {
-        if (empty($configCacheDir)) {
-            $configCacheDir = self::$configCacheDir;
+        if (!file_exists($parseFile)) {
+            return null;
         }
-        $fs = self::getFilesystem();
-        $fs->mkdir($configCacheDir);
-        $content = "<?php return " . var_export($config, true) . ";";
-        file_put_contents($configCacheFile, $content);
+
+        if (!file_exists($configCacheFile)) {
+            $configs = YamlService::parse(file_get_contents($parseFile));
+        }
+
+        if ($this->enabledCache) {
+            $this->createCache($configs, $configCacheFile);
+        }
+
+        return $configs;
     }
 }
