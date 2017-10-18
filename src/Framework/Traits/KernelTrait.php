@@ -6,6 +6,7 @@ use TastPHP\Framework\Cache\CacheServiceProvider;
 use TastPHP\Framework\Cache\FileCacheServiceProvider;
 use TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider;
 use TastPHP\Framework\Doctrine\DoctrineServiceProvider;
+use TastPHP\Framework\Event\HttpEvent;
 use TastPHP\Framework\Event\MailEvent;
 use TastPHP\Framework\Handler\AliasLoaderHandler;
 use TastPHP\Framework\Event\AppEvent;
@@ -26,7 +27,7 @@ trait KernelTrait
      */
     public function run()
     {
-        $httpEvent = $this['eventDispatcher']->dispatch(AppEvent::RESPONSE, new \TastPHP\Framework\Event\HttpEvent(null, $this['router']->matchCurrentRequest(), $this));
+        $httpEvent = $this['eventDispatcher']->dispatch(AppEvent::RESPONSE, new HttpEvent(null, $this['router']->matchCurrentRequest(), $this));
         if (!empty($this['swoole'])) {
             return $httpEvent;
         }
@@ -72,10 +73,11 @@ trait KernelTrait
     public function registerServices()
     {
         foreach ($this->serviceProviders as $provider) {
-            if (class_exists($provider)) {
-                $provider = new $provider(self::$instance);
-                $provider->register();
+            if (empty($provider) || !class_exists($provider)) {
+                continue;
             }
+            $provider = new $provider(self::$instance);
+            $provider->register();
         }
     }
 

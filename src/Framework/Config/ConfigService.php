@@ -2,6 +2,7 @@
 
 namespace TastPHP\Framework\Config;
 
+use Symfony\Component\Filesystem\Filesystem;
 use TastPHP\Framework\Container\Container;
 
 /**
@@ -11,15 +12,34 @@ use TastPHP\Framework\Container\Container;
 class ConfigService
 {
     protected $app;
+    protected static $configCacheDir = __BASEDIR__ . "/var/cache/config";
+    protected $enabledCache = false;
+    protected static $filesystem;
 
     public function __construct(Container $app)
     {
         $this->app = $app;
     }
 
+    public function setEnabledCache()
+    {
+        $this->enabledCache = true;
+    }
+
     public function register()
     {
-        $configs = YamlService::parse(file_get_contents(__BASEDIR__ . '/config/config.yml'));
+        $configCacheFile = self::$configCacheDir . "/config.php";
+
+        if (file_exists($configCacheFile)) {
+            $configs = require $configCacheFile;
+        } else {
+            $configs = YamlService::parse(file_get_contents(__BASEDIR__ . '/config/config.yml'));
+
+            if ($this->enabledCache) {
+                $this->createCache($configs, $configCacheFile);
+            }
+        }
+
         $this->registerAppConfig($configs);
         date_default_timezone_set($this->app['timezone']);
         $this->registerBusinessConfig($configs);
@@ -29,7 +49,17 @@ class ConfigService
     {
         $config = [];
         if (true == $isCustom) {
-            $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/src/{$resource}"));
+
+            $configResourceDir = self::$configCacheDir . "/" . substr($resource, 0, -11);
+            $configCacheFile = $configResourceDir . "/config.php";
+            if (file_exists($configCacheFile)) {
+                $config = require $configCacheFile;
+            } else {
+                $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/src/{$resource}"));
+                if ($this->enabledCache) {
+                    $this->createCache($config, $configCacheFile);
+                }
+            }
         }
 
         if (false == $isCustom) {
@@ -40,8 +70,15 @@ class ConfigService
             $config['timezone'] = 'UTC';
             $config['name'] = 'tastphp';
 
-            if (file_exists(__BASEDIR__ . "/config/{$resource}")) {
+            $appConfigCacheFile = self::$configCacheDir . "/app.php";
+
+            if (file_exists($appConfigCacheFile)) {
+                $config = require $appConfigCacheFile;
+            } else {
                 $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/config/{$resource}"));
+                if ($this->enabledCache) {
+                    $this->createCache($config, $appConfigCacheFile);
+                }
             }
         }
 
@@ -58,8 +95,16 @@ class ConfigService
         $config = [];
         $serviceName = strtolower($serviceName);
 
-        if (file_exists(__BASEDIR__ . "/config/{$serviceName}.yml")) {
-            $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/config/{$serviceName}.yml"));
+        $serviceConfigCacheFile = self::$configCacheDir . "/{$serviceName}.php";
+        if (file_exists($serviceConfigCacheFile)) {
+            $config = require $serviceConfigCacheFile;
+        } else {
+            if (file_exists(__BASEDIR__ . "/config/{$serviceName}.yml")) {
+                $config = YamlService::parse(file_get_contents(__BASEDIR__ . "/config/{$serviceName}.yml"));
+                if ($this->enabledCache) {
+                    $this->createCache($config, $serviceConfigCacheFile);
+                }
+            }
         }
 
         if (!$config) {
@@ -143,5 +188,25 @@ class ConfigService
                 $this->injectResource($resource, '', false, true);
             }
         }
+    }
+
+    public static function getFilesystem()
+    {
+        if (!(self::$filesystem instanceof Filesystem)) {
+            self::$filesystem = new Filesystem;
+        }
+
+        return self::$filesystem;
+    }
+
+    public static function createCache($config, $configCacheFile, $configCacheDir)
+    {
+        if (empty($configCacheDir)) {
+            $configCacheDir = self::$configCacheDir;
+        }
+        $fs = self::getFilesystem();
+        $fs->mkdir($configCacheDir);
+        $content = "<?php return " . var_export($config, true) . ";";
+        file_put_contents($configCacheFile, $content);
     }
 }
