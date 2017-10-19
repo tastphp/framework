@@ -55,7 +55,7 @@ class ConfigService
             $config['name'] = 'tastphp';
 
             $appConfigCacheFile = self::$configCacheDir . "/app.php";
-            $config = $this->getConfig($appConfigCacheFile, __BASEDIR__ . "/src/{$resource}");
+            $config = $this->getConfig($appConfigCacheFile, __BASEDIR__ . "/config/{$resource}");
         }
 
         if (!$config) {

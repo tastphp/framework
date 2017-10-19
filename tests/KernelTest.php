@@ -30,8 +30,6 @@ class KernelTest extends TestCase
         $serviceProvider = 'TastPHP\Test\Config\ConfigServiceProvider';
         $kernel = $this->getKernelInstance();
         $kernel->replaceServiceProvider($key, $serviceProvider);
-        $kernel = $this->getKernelMinInstance();
-        $kernel->replaceServiceProvider($key, $serviceProvider);
     }
 
     /**
@@ -43,8 +41,6 @@ class KernelTest extends TestCase
         $class = 'TastPHP\Test\Config\ConfigServiceProvider';
         $kernel = $this->getKernelInstance();
         $kernel->replaceAlias($alias, $class);
-        $kernelMin = $this->getKernelMinInstance();
-        $kernelMin->replaceAlias($alias, $class);
     }
 
     /**
@@ -56,17 +52,10 @@ class KernelTest extends TestCase
         $lisenter = 'TastPHP\Test\Listener\RequestListener@onTestRequestAction';
         $kernel = $this->getKernelInstance();
         $kernel->replaceListener($eventName, $lisenter);
-        $kernelMin = $this->getKernelMinInstance();
-        $kernelMin->replaceListener($eventName, $lisenter);
     }
 
     protected function getKernelInstance()
     {
         return new \TastPHP\Framework\Kernel();
-    }
-
-    protected function getKernelMinInstance()
-    {
-        return new \TastPHP\Framework\KernelMin();
     }
 }
