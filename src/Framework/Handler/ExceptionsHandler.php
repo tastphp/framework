@@ -68,7 +68,9 @@ class ExceptionsHandler
                     $this->record($error);
                     if ($this->container->runningInConsole()) {
                         $this->renderForConsole($error);
-                    } else {
+                    }
+
+                    if (!$this->container->runningInConsole()) {
                         $this->renderHttpResponse($error);
                     }
                     break;
@@ -82,14 +84,14 @@ class ExceptionsHandler
         return false;
     }
 
-    public function handleException($e)
+    public function handleException($exception)
     {
         $error = [
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString(),
-            'type' => $e->getCode(),
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'trace' => $exception->getTraceAsString(),
+            'type' => $exception->getCode(),
         ];
 
         if ($this->isFatal($error['type'])) {
@@ -149,31 +151,31 @@ class ExceptionsHandler
      */
     public function handleShutdown()
     {
-        if ($e = error_get_last()) {
-            if ($this->isFatal($e['type'])) {
-                $this->record($e);
-                $e['trace'] = '';
+        if ($exception = error_get_last()) {
+            if ($this->isFatal($exception['type'])) {
+                $this->record($exception);
+                $exception['trace'] = '';
                 if ($this->container->runningInConsole()) {
-                    $this->renderForConsole($e);
+                    $this->renderForConsole($exception);
                 }
 
                 if (!$this->container->runningInConsole()) {
-                    $this->renderHttpResponse($e);
+                    $this->renderHttpResponse($exception);
                 }
             }
         }
     }
 
-    protected function record($e, $type = 'error', $context = array())
+    protected function record($exception, $type = 'error', $context = array())
     {
         $env = $this->container['env'];
         $node = $this->container['name'];
-        $body = 'App Env: 【' . $env . '】, node: 【' . $node . '】 <br> [ Exception ' . $e['message'] . '[' . $e['file'] . ' : ' . $e['line'] . ']';
+        $body = 'App Env: 【' . $env . '】, node: 【' . $node . '】 <br> [ Exception ' . $exception['message'] . '[' . $exception['file'] . ' : ' . $exception['line'] . ']';
 
         if (($this->container['swift.mail.enabled'] == 'on') && (!$this->container['debug'])) {
             $this->container['eventDispatcher']->dispatch(MailEvent::MAIlSEND, new MailEvent($body));
         }
-        \Logger::$type('[' . $this->levels[$e['type']] . '] ' . $e['message'] . '[' . $e['file'] . ' : ' . $e['line'] . ']', $context);
+        \Logger::$type('[' . $this->levels[$exception['type']] . '] ' . $exception['message'] . '[' . $exception['file'] . ' : ' . $exception['line'] . ']', $context);
     }
 
     /**
