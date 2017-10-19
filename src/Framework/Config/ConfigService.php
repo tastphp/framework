@@ -72,8 +72,8 @@ class ConfigService
     {
         $config = [];
         $serviceName = strtolower($serviceName);
-        $serviceConfigCacheFile = self::$configCacheDir . "/{$serviceName}.php";
-        $config = $this->getConfig($serviceConfigCacheFile, __BASEDIR__ . "/config/{$serviceName}.yml");
+        $cacheFile = self::$configCacheDir . "/{$serviceName}.php";
+        $config = $this->getConfig($cacheFile, __BASEDIR__ . "/config/{$serviceName}.yml");
 
         if (!$config) {
             if (isset($default)) {

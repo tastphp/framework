@@ -35,7 +35,9 @@ class RedisServiceProvider extends ServiceProvider
 
             if ($config['connect'] == 'persistence') {
                 $redis->pconnect($config['host'], $config['port']);
-            } else {
+            }
+
+            if(empty($config['connect']) || $config['connect'] != 'persistence') {
                 $redis->connect($config['host'], $config['port']);
             }
 

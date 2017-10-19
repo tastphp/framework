@@ -2,7 +2,7 @@
 
 namespace TastPHP\Framework\Handler;
 
-use TastPHP\Framework\Container\Container;
+use TastPHP\Framework\Kernel;
 use Whoops\Handler\PlainTextHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Util\Misc;
@@ -12,8 +12,9 @@ use TastPHP\Framework\Event\MailEvent;
 
 class WhoopsExceptionsHandler
 {
-    public function register(Container $container)
+    public function register()
     {
+        $container = Kernel::getInstance();
         if (isset($container['display_errors']) && !$container['display_errors']) {
             ini_set('display_errors', 'Off');
         }
@@ -22,7 +23,8 @@ class WhoopsExceptionsHandler
 
         if (Misc::isCommandLine()) {
             $whoops->pushHandler(new PlainTextHandler());
-        } else {
+        }
+        if (!Misc::isCommandLine()) {
             $myhander = new PrettyPageHandler();
             $myhander->addDataTable('Tastphp Application', [
                 'Version' => $container['version'],

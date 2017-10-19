@@ -3,7 +3,10 @@
 namespace TastPHP\Framework\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
+use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use TastPHP\Framework\Adapter\RequestAdapter;
 use TastPHP\Framework\Http\Request;
 
 /**
@@ -187,6 +190,9 @@ class Route
                 $args[$paramName] = $parameters[$paramName];
             }
             if (!empty($arg->getClass()) && $arg->getClass()->getName() == (ServerRequestInterface::class)) {
+                $container['psr7Factory'] = new DiactorosFactory();
+                $container['httpFoundationFactory'] = new HttpFoundationFactory();
+                $container['Request'] = RequestAdapter::convertPsr7Request(Request::createFromGlobals());
                 $args[$paramName] = $container['Request'];
             }
 

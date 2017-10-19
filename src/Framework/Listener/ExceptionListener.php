@@ -19,10 +19,14 @@ class ExceptionListener
     {
         $app = \Kernel::getInstance();
 
+        $response = "500";
+
         if ($app['env'] == 'prod') {
             $app['Request'] = Request::createFromGlobals();
-            $response = "500";
-        } else {
+
+        }
+
+        if($app['env'] != 'prod') {
             $response = new Response($event->getTrace(), 500);
         }
 
