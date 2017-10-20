@@ -47,15 +47,18 @@ class ConfigService
         }
 
         if (false == $isCustom) {
-            $config['version'] = APP_VERSION;
-            $config['debug'] = true;
-            $config['secret'] = 'tastphp';
-            $config['env'] = 'tastphp';
-            $config['timezone'] = 'UTC';
-            $config['name'] = 'tastphp';
+            $configInit['version'] = APP_VERSION;
+            $configInit['debug'] = true;
+            $configInit['secret'] = 'tastphp';
+            $configInit['env'] = 'tastphp';
+            $configInit['timezone'] = 'UTC';
+            $configInit['name'] = 'tastphp';
 
             $appConfigCacheFile = self::$configCacheDir . "/app.php";
             $config = $this->getConfig($appConfigCacheFile, __BASEDIR__ . "/config/{$resource}");
+            if (empty($config)) {
+                $config = $configInit;
+            }
         }
 
         if (!$config) {

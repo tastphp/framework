@@ -10,13 +10,7 @@ use Doctrine\DBAL\Configuration;
 class DoctrineService
 {
     public function register(Container $app)
-    {   
-        //debug bar
-        if ($app['debug']) {
-            $debugbar = new \TastPHP\Framework\Debug\DebugBar();
-            $app['debugbar'] = $debugbar;
-        }
-
+    {
         $app['db.default_options'] = array(
             'driver' => 'pdo_mysql',
             'dbname' => 'test',

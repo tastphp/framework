@@ -2,6 +2,7 @@
 
 namespace TastPHP\Framework\Handler;
 
+use TastPHP\Framework\Debug\DebugBar;
 use TastPHP\Framework\Kernel;
 use Whoops\Handler\PlainTextHandler;
 use Whoops\Handler\PrettyPageHandler;
@@ -15,6 +16,13 @@ class WhoopsExceptionsHandler
     public function register()
     {
         $container = Kernel::getInstance();
+
+        //debug bar
+        if ($container['debug']) {
+            $debugBar = new DebugBar();
+            $container['debugbar'] = $debugBar;
+        }
+
         if (isset($container['display_errors']) && !$container['display_errors']) {
             ini_set('display_errors', 'Off');
         }
