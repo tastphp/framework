@@ -49,3 +49,7 @@
 
 ## v1.7.1 (2017-10-17)
 * add register kernel listeners&&ServiceProvider wrapper
+
+## v1.7.2 (2017-10-20)
+* optimize ConfigService
+* add cache command for route&config
