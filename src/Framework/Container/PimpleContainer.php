@@ -24,7 +24,7 @@ class PimpleContainer implements \Psr\Container\ContainerInterface
      */
     public function get($id)
     {
-        if (!isset($this->container[$id])) {
+        if (!$this->has($id)) {
             throw new NotFoundException(sprintf('Identifier "%s" is not defined in container.', $id));
         }
         return $this->container[$id];
