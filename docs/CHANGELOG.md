@@ -58,3 +58,6 @@
 * Merge pull request [#15](https://github.com/tastphp/framework/pull/15) from akiyamaSM/patch-2
 * Fixed when no app.yml file error
 * move register debugbar code to WhoopsExceptionsHandler
+
+## v1.7.4 (2017-10-20)
+* Fixed ConfigService cache bug
