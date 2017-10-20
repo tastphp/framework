@@ -31,7 +31,6 @@ class ConfigService
         $configCacheFile = self::$configCacheDir . "/config.php";
 
         $config = $this->getConfig($configCacheFile, __BASEDIR__ . '/config/config.yml');
-
         $this->registerAppConfig($config);
         date_default_timezone_set($this->app['timezone']);
         $this->registerBusinessConfig($config);
@@ -43,7 +42,7 @@ class ConfigService
         if (true == $isCustom) {
             $configResourceDir = self::$configCacheDir . "/" . substr($resource, 0, -11);
             $configCacheFile = $configResourceDir . "/config.php";
-            $config = $this->getConfig($configCacheFile, __BASEDIR__ . "/src/{$resource}");
+            $config = $this->getConfig($configCacheFile, __BASEDIR__ . "/src/{$resource}", $isCustom, $configResourceDir);
         }
 
         if (false == $isCustom) {
@@ -181,7 +180,7 @@ class ConfigService
         }
     }
 
-    private function getConfig($configCacheFile, $parseFile)
+    private function getConfig($configCacheFile, $parseFile, $isCustom = false, $configResourceDir = "")
     {
         if (file_exists($configCacheFile)) {
             return require $configCacheFile;
@@ -195,8 +194,13 @@ class ConfigService
             $configs = YamlService::parse(file_get_contents($parseFile));
         }
 
+        $configCacheDir = "";
+        if ($isCustom) {
+            $configCacheDir = $configResourceDir;
+        }
+
         if ($this->enabledCache) {
-            $this->createCache($configs, $configCacheFile);
+            $this->createCache($configs, $configCacheFile, $configCacheDir);
         }
 
         return $configs;
