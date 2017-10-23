@@ -135,16 +135,23 @@ trait KernelTrait
     }
 
     /**
-     * @param $key string
-     * @param $listener string
+     * @param $key [example: AppEvent::REQUEST]
+     * @param $listener [example: TastPHP\Framework\Listener\RequestListener]
+     * @param string $action [example: onRequestAction]
      */
-    public function replaceListener($key, $listener)
+    public function replaceListener($key, $listener, $action = '')
     {
         if (!isset($this->listeners[$key])) {
             throw new \InvalidArgumentException(sprintf('The kernel listener "%s" is not defined.', $key));
         }
 
-        $this->listeners[$key] = $listener;
+        if (empty($action)) {
+            $this->listeners[$key] = $listener;
+        }
+
+        if (!empty($action)) {
+            $this->listeners[$key] = $listener . '@' . $action;
+        }
     }
 
     /**
