@@ -189,6 +189,7 @@ class Route
             if (isset($parameters[$paramName])) {
                 $args[$paramName] = $parameters[$paramName];
             }
+
             if (!empty($arg->getClass()) && $arg->getClass()->getName() == (ServerRequestInterface::class)) {
                 $container['psr7Factory'] = new DiactorosFactory();
                 $container['httpFoundationFactory'] = new HttpFoundationFactory();
@@ -196,11 +197,11 @@ class Route
                 $args[$paramName] = $container['Request'];
             }
 
-            if (!empty($arg->getClass()) && $arg->getClass()->getName() == (Request::class || \Symfony\Component\HttpFoundation\Request::class)) {
+            if (!empty($arg->getClass()) && (($arg->getClass()->getName() == Request::class)
+                    || ($arg->getClass()->getName() == \Symfony\Component\HttpFoundation\Request::class))) {
                 $args[$paramName] = $container['symfonyRequest'];
             }
         }
-
         return $method->invokeArgs($instance, $args);
     }
 }
