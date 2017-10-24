@@ -65,3 +65,6 @@
 ## v1.7.5 (2017-10-23)
 * Fixed bug when client register kernel listener
 * Fixed bug when client for routerService dispatch
+
+## v1.7.6 (2017-10-24)
+*  Fixed miss class load
