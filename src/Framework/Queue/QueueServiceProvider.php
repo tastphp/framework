@@ -2,8 +2,7 @@
 
 namespace TastPHP\Framework\Queue;
 
-use ServiceProvider;
-use TastPHP\Framework\Queue\BeanstalkdService;
+use TastPHP\Framework\Service\ServiceProvider;
 
 class QueueServiceProvider extends ServiceProvider
 {
