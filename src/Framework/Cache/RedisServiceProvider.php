@@ -2,7 +2,7 @@
 
 namespace TastPHP\Framework\Cache;
 
-use ServiceProvider;
+use TastPHP\Framework\Service\ServiceProvider;
 use Redis;
 
 /**

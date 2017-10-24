@@ -4,6 +4,7 @@ namespace TastPHP\Framework\Traits;
 
 use TastPHP\Framework\Cache\CacheServiceProvider;
 use TastPHP\Framework\Cache\FileCacheServiceProvider;
+use TastPHP\Framework\Cache\RedisServiceProvider;
 use TastPHP\Framework\CsrfToken\CsrfTokenServiceProvider;
 use TastPHP\Framework\Doctrine\DoctrineServiceProvider;
 use TastPHP\Framework\Event\HttpEvent;

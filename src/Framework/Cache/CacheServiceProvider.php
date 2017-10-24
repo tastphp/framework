@@ -2,8 +2,7 @@
 
 namespace TastPHP\Framework\Cache;
 
-use ServiceProvider;
-use TastPHP\Framework\Cache\RedisCacheService;
+use TastPHP\Framework\Service\ServiceProvider;
 
 /**
  * Class CacheServiceProvider
