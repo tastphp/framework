@@ -68,3 +68,7 @@
 
 ## v1.7.6 (2017-10-24)
 *  Fixed miss class load
+
+## v1.7.7 (2017-10-25)
+* Added routes multi resources as arr
+* Fixed when use doctrine debugbar not regiter
