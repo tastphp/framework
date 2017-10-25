@@ -43,7 +43,6 @@ class RouterServiceProvider extends ServiceProvider
             $routeConfigAll = require $routeCacheFile;
         } else {
             $routeConfigAll = $this->parseAllRoutes($app, $routeConfigAll);
-
             if (!$app['debug'] || $this->enabledCache) {
                 ConfigService::createCache($routeConfigAll, $routeCacheFile, $routeCacheDir);
             }
@@ -71,17 +70,31 @@ class RouterServiceProvider extends ServiceProvider
 
     private function parseRoutesConfig($routesFile, $routeConfigAll)
     {
-        $array = [];
         $routesConfigs = YamlService::parse(file_get_contents($routesFile));
         foreach ($routesConfigs as $routeConfig) {
-            $resource = ($routeConfig['resource']);
-            if (is_file(__BASEDIR__ . "/src/" . $resource) && file_exists(__BASEDIR__ . "/src/" . $resource)) {
-                $array = YamlService::parse(file_get_contents(__BASEDIR__ . "/src/" . $resource));
+            $resources = ($routeConfig['resource']);
+
+            if (is_array($resources)) {
+                foreach ($resources as $resource) {
+                    $routeConfigAll = $this->parseRouteResource($resource,$routeConfigAll);
+                }
             }
 
-            if (!empty($array)) {
-                $routeConfigAll = array_merge($routeConfigAll, $array);
+            if (!is_array($resources)) {
+                $routeConfigAll = $this->parseRouteResource($resources,$routeConfigAll);
             }
+        }
+
+        return $routeConfigAll;
+    }
+
+    private function parseRouteResource($resource,$routeConfigAll)
+    {
+        if (is_file(__BASEDIR__ . "/src/" . $resource) && file_exists(__BASEDIR__ . "/src/" . $resource)) {
+            $array = YamlService::parse(file_get_contents(__BASEDIR__ . "/src/" . $resource));
+        }
+        if (!empty($array)) {
+            $routeConfigAll = array_merge($routeConfigAll, $array);
         }
 
         return $routeConfigAll;

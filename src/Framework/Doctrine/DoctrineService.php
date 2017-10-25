@@ -46,7 +46,7 @@ class DoctrineService
             $app['dbs.options.initializer']();
 
             $dbs = new Container();
-            if ($app['debug']) {
+            if ($app['debug'] && !empty($app['debugbar'])) {
                 $debugStack = new \Doctrine\DBAL\Logging\DebugStack();
                 $app->singleton('debugbar')->addCollector(new \DebugBar\Bridge\DoctrineCollector($debugStack));
             }
@@ -63,7 +63,7 @@ class DoctrineService
                 $dbs[$name] = DriverManager::getConnection($options, $config, $manager);
 
                 //debug bar
-                if ($app['debug']) {
+                if ($app['debug'] && !empty($debugStack)) {
                     $dbs[$name]->getConfiguration()->setSQLLogger($debugStack);
                 }
             }
