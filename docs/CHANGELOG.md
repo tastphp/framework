@@ -72,3 +72,6 @@
 ## v1.7.7 (2017-10-25)
 * Added routes multi resources as arr
 * Fixed when use doctrine debugbar not regiter
+
+## v2.0.0 (2017-10-30)
+* support delays in registration of serviceProvider
