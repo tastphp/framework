@@ -73,10 +73,19 @@ trait KernelTrait
      */
     public function registerServices()
     {
-        foreach ($this->serviceProviders as $provider) {
+        $this['serviceProviders'] = $this->serviceProviders;
+
+        foreach ($this->serviceProviders as $providerArray) {
+            list($provider,$enabled) = $providerArray;
+
+            if (!$enabled) {
+                continue;
+            }
+
             if (empty($provider) || !class_exists($provider)) {
                 continue;
             }
+
             $provider = new $provider(self::$instance);
             $provider->register();
         }
@@ -172,52 +181,58 @@ trait KernelTrait
 
     protected function registerRedisService()
     {
-        $this->replaceServiceProvider("Redis", RedisServiceProvider::class);
+        $this->replaceServiceProvider("Redis", [RedisServiceProvider::class,true]);
     }
 
     protected function registerCacheService()
     {
-        $this->replaceServiceProvider("Cache", CacheServiceProvider::class);
+        $this->replaceServiceProvider("Cache", [CacheServiceProvider::class,true]);
     }
 
     protected function registerFileCacheService()
     {
-        $this->replaceServiceProvider("FileCache", FileCacheServiceProvider::class);
+        $this->replaceServiceProvider("FileCache", [FileCacheServiceProvider::class,true]);
     }
 
     protected function registerLoggerService()
     {
-        $this->replaceServiceProvider("Logger", LoggerServiceProvider::class);
+        $this->replaceServiceProvider("Logger", [LoggerServiceProvider::class,true]);
     }
 
     protected function registerTwigService()
     {
-        $this->replaceServiceProvider("Twig", TwigServiceProvider::class);
+        $this->replaceServiceProvider("Twig", [TwigServiceProvider::class,true]);
     }
 
-    protected function registerDoctrineService()
+    //v1.7.8 remove
+//    protected function registerDoctrineService()
+//    {
+//        $this->replaceServiceProvider("Doctrine", [DoctrineServiceProvider::class,true]);
+//    }
+
+    protected function registerDbsService()
     {
-        $this->replaceServiceProvider("Doctrine", DoctrineServiceProvider::class);
+        $this->replaceServiceProvider("Dbs", [DoctrineServiceProvider::class,true]);
     }
 
     protected function registerCsrfTokenService()
     {
-        $this->replaceServiceProvider("CsrfToken", CsrfTokenServiceProvider::class);
+        $this->replaceServiceProvider("CsrfToken", [CsrfTokenServiceProvider::class,true]);
     }
 
     protected function registerJwtService()
     {
-        $this->replaceServiceProvider("Jwt", JwtServiceProvider::class);
+        $this->replaceServiceProvider("Jwt", [JwtServiceProvider::class,true]);
     }
 
     protected function registerSwiftMailerService()
     {
-        $this->replaceServiceProvider("SwiftMailer", SwiftMailerServiceProvider::class);
+        $this->replaceServiceProvider("SwiftMailer", [SwiftMailerServiceProvider::class,true]);
     }
 
     protected function registerQueueService()
     {
-        $this->replaceServiceProvider("Queue", QueueServiceProvider::class);
+        $this->replaceServiceProvider("Queue", [QueueServiceProvider::class,true]);
     }
 
     // kernel listener register
