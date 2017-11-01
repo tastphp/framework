@@ -22,7 +22,7 @@ class JwtServiceProvider extends ServiceProvider
         });
 
         //Sha256
-        $this->app->singleton('signer', function () {
+        $this->app->singleton('jwtSigner', function () {
             return new Sha256();
         });
     }

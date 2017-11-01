@@ -13,7 +13,9 @@ use TastPHP\Framework\Doctrine\DoctrineServiceProvider;
 use TastPHP\Framework\EventDispatcher\EventDispatcherServiceProvider;
 use TastPHP\Framework\ExceptionHandler\ExceptionHandlerServiceProvider;
 use TastPHP\Framework\Container\Container;
-use TastPHP\Framework\Jwt\JwtServiceProvider;
+use TastPHP\Framework\Jwt\JwtBuilderProvider;
+use TastPHP\Framework\Jwt\JwtParserProvider;
+use TastPHP\Framework\Jwt\JwtSignerProvider;
 use TastPHP\Framework\ListenerRegister\ListenerRegisterServiceProvider;
 use TastPHP\Framework\Http\RequestServiceProvider;
 use TastPHP\Framework\Logger\LoggerServiceProvider;
@@ -48,25 +50,26 @@ class Kernel extends Container
      * @var serviceProviders array
      */
     protected $serviceProviders = [
-        'Config' => [ConfigServiceProvider::class,true],
-        'Request' => [RequestServiceProvider::class,true],
-        'Redis' => [RedisServiceProvider::class,false],
-        'Cache' => [CacheServiceProvider::class,false],
-        'FileCache' => [FileCacheServiceProvider::class,false],
-        'Logger' => [LoggerServiceProvider::class,false],
-        'EventDispatcher' => [EventDispatcherServiceProvider::class,true],
-        'Twig' => [TwigServiceProvider::class,false],
-//        'Doctrine' => [DoctrineServiceProvider::class,false],     //v1.7.8 remove
-        'Dbs' => [DoctrineServiceProvider::class,false],
-        'ServiceKernel' => [ServiceKernelProvider::class,false],
-        'CsrfToken' => [CsrfTokenServiceProvider::class,false],
-        'Jwt' => [JwtServiceProvider::class,false],
-        'ListenerRegister' => [ListenerRegisterServiceProvider::class,true],
-        'SwiftMailer' => [SwiftMailerServiceProvider::class,false],
-        'Queue' => [QueueServiceProvider::class,false],
-        'Router' => [RouterServiceProvider::class,true],
-        'ExceptionHandler' => [ExceptionHandlerServiceProvider::class,true],
-        'Container' => [PimpleContainerProvider::class,false]
+        'Config' => [ConfigServiceProvider::class, true],
+        'Request' => [RequestServiceProvider::class, true],
+        'Redis' => [RedisServiceProvider::class, false],
+        'Cache' => [CacheServiceProvider::class, false],
+        'FileCache' => [FileCacheServiceProvider::class, false],
+        'Logger' => [LoggerServiceProvider::class, false],
+        'EventDispatcher' => [EventDispatcherServiceProvider::class, true],
+        'Twig' => [TwigServiceProvider::class, false],
+        'Dbs' => [DoctrineServiceProvider::class, false],
+        'ServiceKernel' => [ServiceKernelProvider::class, false],
+        'CsrfToken' => [CsrfTokenServiceProvider::class, false],
+        'JwtBuilder' => [JwtBuilderProvider::class, false],
+        'JwtParser' => [JwtParserProvider::class, false],
+        'JwtSigner' => [JwtSignerProvider::class, false],
+        'ListenerRegister' => [ListenerRegisterServiceProvider::class, true],
+        'SwiftMailer' => [SwiftMailerServiceProvider::class, false],
+        'Queue' => [QueueServiceProvider::class, false],
+        'Router' => [RouterServiceProvider::class, true],
+        'ExceptionHandler' => [ExceptionHandlerServiceProvider::class, true],
+        'Container' => [PimpleContainerProvider::class, false]
     ];
 
     /**
