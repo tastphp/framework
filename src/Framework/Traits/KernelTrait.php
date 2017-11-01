@@ -177,66 +177,7 @@ trait KernelTrait
         return $this->listeners;
     }
 
-    //ServiceProvider register
-
-    protected function registerRedisService()
-    {
-        $this->replaceServiceProvider("Redis", [RedisServiceProvider::class,true]);
-    }
-
-    protected function registerCacheService()
-    {
-        $this->replaceServiceProvider("Cache", [CacheServiceProvider::class,true]);
-    }
-
-    protected function registerFileCacheService()
-    {
-        $this->replaceServiceProvider("FileCache", [FileCacheServiceProvider::class,true]);
-    }
-
-    protected function registerLoggerService()
-    {
-        $this->replaceServiceProvider("Logger", [LoggerServiceProvider::class,true]);
-    }
-
-    protected function registerTwigService()
-    {
-        $this->replaceServiceProvider("Twig", [TwigServiceProvider::class,true]);
-    }
-
-    //v1.7.8 remove
-//    protected function registerDoctrineService()
-//    {
-//        $this->replaceServiceProvider("Doctrine", [DoctrineServiceProvider::class,true]);
-//    }
-
-    protected function registerDbsService()
-    {
-        $this->replaceServiceProvider("Dbs", [DoctrineServiceProvider::class,true]);
-    }
-
-    protected function registerCsrfTokenService()
-    {
-        $this->replaceServiceProvider("CsrfToken", [CsrfTokenServiceProvider::class,true]);
-    }
-
-    protected function registerJwtService()
-    {
-        $this->replaceServiceProvider("Jwt", [JwtServiceProvider::class,true]);
-    }
-
-    protected function registerSwiftMailerService()
-    {
-        $this->replaceServiceProvider("SwiftMailer", [SwiftMailerServiceProvider::class,true]);
-    }
-
-    protected function registerQueueService()
-    {
-        $this->replaceServiceProvider("Queue", [QueueServiceProvider::class,true]);
-    }
-
     // kernel listener register
-
     /**
      * @param $listener
      * @param string $action
