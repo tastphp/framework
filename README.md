@@ -42,6 +42,8 @@
 composer require tastphp/framework:dev-master
 ```
 
+## Contributing
+If you'd like to help out with the project. You can put up a Pull Request.
 
 ## License
 [MIT Licensed](http://www.opensource.org/licenses/MIT)
